@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="從 GitHub、GitLab、Codeberg、Gitea、Bitbucket 精選值得學習、部署與動手練習的開源專案，附系統需求與安全評估。">
+<meta name="color-scheme" content="light dark">
+<title>開源實作圖鑑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: index-card catalog — sticky filter rail on the left, dense specimen rows on the right; detail replaces the list. */
+:root{
+  --bg:#F1F4EF; --surface:#FFFFFF; --sunk:#E7ECE6; --ink:#17201C; --muted:#5A6862; --line:#D5DDD6;
+  --accent:#0B6E5F; --accent-soft:#D6EBE5; --on-accent:#FFFFFF;
+  --ok:#2C7A3A; --ok-soft:#DCEFDC; --warn:#9A5B00; --warn-soft:#F7E8CC; --risk:#B3261E; --risk-soft:#F6DAD7;
+  --gh:#24292F; --gl:#D9480F; --cb:#2378C8; --gt:#5E8F1F; --bb:#1F5FD1;
+  --display:"Bricolage Grotesque","Noto Sans TC",system-ui,sans-serif;
+  --body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1513; --surface:#161F1C; --sunk:#1C2723; --ink:#E3EBE7; --muted:#97A69F; --line:#28352F;
+  --accent:#3FC2A6; --accent-soft:#173A33; --on-accent:#0B1512;
+  --ok:#74C982; --ok-soft:#1C3322; --warn:#E6A84A; --warn-soft:#3A2B12; --risk:#F2857B; --risk-soft:#3E1F1C;
+  --gh:#C9D1D9; --gl:#F07A45; --cb:#5AA7EE; --gt:#8CC152; --bb:#6A9BF4; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1513; --surface:#161F1C; --sunk:#1C2723; --ink:#E3EBE7; --muted:#97A69F; --line:#28352F;
+  --accent:#3FC2A6; --accent-soft:#173A33; --on-accent:#0B1512;
+  --ok:#74C982; --ok-soft:#1C3322; --warn:#E6A84A; --warn-soft:#3A2B12; --risk:#F2857B; --risk-soft:#3E1F1C;
+  --gh:#C9D1D9; --gl:#F07A45; --cb:#5AA7EE; --gt:#8CC152; --bb:#6A9BF4; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:24px 64px}
+a{color:var(--accent)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:flex-end;justify-content:space-between;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,4.4vw,44px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.brand p{margin:6px 0 0;color:var(--muted);max-width:60ch}
+.tally{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+.tally b{color:var(--ink);font-family:var(--mono);font-weight:600}
+.searchbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:20px 0 18px}
+.search{flex:1 1 320px;min-width:0;position:relative}
+.search input{width:100%;padding:12px 14px 12px 40px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--surface);font-size:16px}
+.search input:focus{border-color:var(--accent);outline:none}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2}
+.sort{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.sort select{padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink)}
+
+/* layout */
+.main{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:minmax(0,1fr)}}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:18px}
+@media (max-width:860px){.rail{position:static}}
+.rail-toggle{display:none}
+@media (max-width:860px){
+  .rail-toggle{display:flex;justify-content:space-between;align-items:center;width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--surface);cursor:pointer}
+  .rail-body[data-open="false"]{display:none}
+}
+.rail-body{display:grid;gap:18px}
+.fgroup h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;cursor:pointer;line-height:1.3}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .c{font-family:var(--mono);font-size:11px;opacity:.7}
+.chip:disabled{opacity:.4;cursor:default}
+.reset{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font-size:13px;justify-self:start}
+
+/* results */
+.meta-line{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.list{display:grid;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:40px minmax(0,1fr) 92px 112px;gap:14px;align-items:start;padding:14px 8px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;border-radius:6px}
+.row:hover{background:var(--surface)}
+@media (max-width:640px){.row{grid-template-columns:34px minmax(0,1fr);}.row .stat,.row .safe{grid-column:2}.row .stat{display:flex;gap:12px}.row .safe{justify-self:start}}
+.mark{width:34px;height:34px;border-radius:7px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:12px;color:#fff;letter-spacing:.02em}
+.mark.github{background:var(--gh);color:var(--bg)} .mark.gitlab{background:var(--gl)} .mark.codeberg{background:var(--cb)} .mark.gitea{background:var(--gt)} .mark.bitbucket{background:var(--bb)}
+.rname{font-family:var(--mono);font-weight:600;font-size:15px;word-break:break-word}
+.rname .owner{color:var(--muted);font-weight:400}
+.rdesc{margin:2px 0 6px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:12px;padding:1px 8px;border-radius:5px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.tag.cat{background:var(--accent-soft);color:var(--accent);font-weight:500}
+.stat{text-align:right;font-size:13px;color:var(--muted)}
+.stat .big{display:block;font-family:var(--mono);font-size:16px;color:var(--ink);font-weight:600}
+@media (max-width:640px){.stat{text-align:left}.stat .big{display:inline;font-size:14px;margin-right:4px}}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pill i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.risk{background:var(--risk-soft);color:var(--risk)}
+.safe{text-align:right}
+.safe .sc{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
+.empty{padding:48px 0;text-align:center;color:var(--muted)}
+
+/* detail */
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:14px;margin-bottom:16px}
+.dhead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;padding-bottom:18px;border-bottom:2px solid var(--ink)}
+.dhead .mark{width:48px;height:48px;font-size:14px;border-radius:9px}
+.dhead h2{font-family:var(--mono);font-size:clamp(20px,3vw,28px);margin:0;line-height:1.2;word-break:break-word}
+.dhead .orig{color:var(--muted);margin:6px 0 10px;font-size:14px}
+.dlinks{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink);font-size:14px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:18px 0 26px}
+.fact{background:var(--surface);padding:10px 14px}
+.fact span{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fact b{font-family:var(--mono);font-size:16px;font-weight:600;word-break:break-word}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.sec{margin-bottom:28px}
+.sec h3{font-family:var(--display);font-weight:600;font-size:20px;margin:0 0 10px}
+.sec p{margin:0 0 10px;max-width:68ch}
+.sec ul{margin:0;padding-left:20px}
+.sec li{margin:3px 0}
+.note{font-size:13px;color:var(--muted);margin-top:6px}
+.tasks{counter-reset:t;list-style:none;padding:0!important}
+.tasks li{counter-increment:t;display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;padding:10px 0;border-top:1px dashed var(--line)}
+.tasks li::before{content:counter(t);font-family:var(--mono);font-weight:600;color:var(--accent)}
+.code{position:relative;background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;overflow-x:auto}
+.code pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre}
+.code pre .ps{color:var(--muted);user-select:none}
+.copy{position:absolute;top:8px;right:8px;font-size:12px;padding:3px 9px;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.req{display:grid;gap:12px}
+.req div h4{margin:0 0 4px;font-size:13px;color:var(--muted);font-weight:700}
+.req div ul{margin:0}
+.est{font-size:11px;padding:1px 6px;border-radius:4px;background:var(--warn-soft);color:var(--warn);margin-left:6px;font-weight:700}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.gauge{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.gauge .n{font-family:var(--display);font-weight:800;font-size:42px;line-height:1}
+.meter{height:8px;border-radius:999px;background:var(--sunk);overflow:hidden;margin:6px 0 4px}
+.meter i{display:block;height:100%;border-radius:999px}
+.scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.signals{list-style:none;padding:0!important;margin:12px 0 0!important;display:grid;gap:8px}
+.signals li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px;font-size:14px;margin:0}
+.signals .d{font-family:var(--mono);font-weight:600;font-size:13px;text-align:right}
+.signals .d.neg{color:var(--risk)} .signals .d.pos{color:var(--ok)}
+details.check{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:500}
+details.check ol{padding-left:20px;margin:8px 0 0;font-size:14px}
+.cite-tabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.cite-tabs button{padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:13px}
+.cite-tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+blockquote{margin:12px 0 0;padding:8px 14px;border-left:3px solid var(--accent);background:var(--sunk);border-radius:0 8px 8px 0;font-size:14px}
+blockquote cite{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:4px}
+.lic-box{display:grid;gap:4px}
+.lic-box b{font-family:var(--mono)}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:grid;gap:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:14px}
+@media (prefers-reduced-motion:no-preference){.row{transition:background .12s}}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:20px}
+.tabs{display:flex;gap:4px;padding:3px;background:var(--sunk);border-radius:10px}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:14px;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tabs .c{font-family:var(--mono);font-size:12px;margin-left:4px}
+.live{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.live .btn:disabled{opacity:.55;cursor:default}
+.live .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:5px;vertical-align:middle}
+.spin{display:inline-block}
+@media (prefers-reduced-motion:no-preference){.busy .spin{animation:spin 1s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cand-intro{max-width:72ch;color:var(--muted);font-size:14px;margin:18px 0 12px}
+.row.ext .rname::after{content:" ↗";color:var(--muted);font-weight:400}
+.loading{padding:60px 0;text-align:center;color:var(--muted)}
+.foot a{color:inherit}
+html,body{background:var(--bg)}
+body{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>開源實作圖鑑</h1>
+      <p>從 GitHub、GitLab、Codeberg、Gitea、Bitbucket 精選值得學習、部署與動手練習的開源專案，附系統需求與安全評估。</p>
+    </div>
+    <div class="tally" id="tally"></div>
+  </header>
+
+  <div class="toolbar" id="toolbar">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tabMain" aria-selected="true">精選專案<span class="c" id="mainN"></span></button>
+      <button role="tab" id="tabCand" aria-selected="false">本週自動發現<span class="c" id="candN"></span></button>
+    </div>
+    <div class="live"><span id="liveStatus"></span><button class="btn" id="liveBtn" title="直接向各平台讀取最新星數與更新時間"><span class="spin">⟳</span> 即時更新數據</button></div>
+  </div>
+
+  <div id="loadingView" class="loading">載入專案資料中…</div>
+
+  <div id="candView" hidden>
+    <p class="cand-intro">每週排程從各平台自動抓到的新興熱門專案，還沒經過人工整理，所以只有基本資訊與依授權、維護狀態算出的初步風險。看到值得收錄的，把它加進 <span class="mono">data/curated.json</span> 即可。</p>
+    <div class="meta-line"><span id="candCount"></span><span id="candAt"></span></div>
+    <div class="list" id="candList"></div>
+  </div>
+
+  <div id="listView" hidden>
+    <div class="searchbar">
+      <label class="search" for="q">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="搜尋名稱、用途、語言或標籤，例如：docker、遊戲、rust、監控" autocomplete="off">
+      </label>
+      <label class="sort" for="sort">排序
+        <select id="sort">
+          <option value="stars">熱度（星數）</option>
+          <option value="forks">引用數（Fork）</option>
+          <option value="recent">最近更新</option>
+          <option value="safety">安全分數</option>
+          <option value="name">名稱</option>
+        </select>
+      </label>
+    </div>
+    <div class="main">
+      <aside class="rail">
+        <button class="rail-toggle" id="railToggle" aria-expanded="false" aria-controls="railBody"><span>篩選條件</span><span id="activeCount" class="mono"></span></button>
+        <div class="rail-body" id="railBody" data-open="false">
+          <div class="fgroup"><h3>來源平台</h3><div class="chips" id="f-src"></div></div>
+          <div class="fgroup"><h3>性質分類</h3><div class="chips" id="f-cat"></div></div>
+          <div class="fgroup"><h3>實操方式</h3><div class="chips" id="f-modes"></div></div>
+          <div class="fgroup"><h3>安全等級</h3><div class="chips" id="f-safe"></div></div>
+          <div class="fgroup"><h3>難度</h3><div class="chips" id="f-diff"></div></div>
+          <button class="reset" id="reset">清除所有篩選</button>
+        </div>
+      </aside>
+      <section>
+        <div class="meta-line"><span id="count"></span><span id="snap"></span></div>
+        <div class="list" id="list"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="detailView" hidden></div>
+
+  <footer class="foot">
+    <span>每週一自動更新，最近一次 <b class="mono" id="snap2"></b>。「即時更新數據」會直接向各平台讀取最新星數，結果只存在你的瀏覽器。Bitbucket 不提供星數，依更新時間排在最後。</span>
+    <span id="adminLine"></span>
+    <span>安全分數是依授權、維護狀態、安裝方式與權限需求計算的靜態風險評估，不是防毒掃描。實際執行前請依詳情頁的檢查清單自行確認。</span>
+  </footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(async function(){
+const $=id=>document.getElementById(id);
+let DATA, CAND={items:[]};
+try{
+  const [a,b]=await Promise.all([
+    fetch('data/projects.json',{cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }),
+    fetch('data/candidates.json',{cache:'no-cache'}).then(r=>r.ok?r.json():{items:[]}).catch(()=>({items:[]}))
+  ]);
+  DATA=a; CAND=b||{items:[]};
+}catch(e){
+  $('loadingView').textContent='資料載入失敗（'+e.message+'）。請重新整理頁面；若一直失敗，可能是部署還沒完成。';
+  return;
+}
+$('loadingView').hidden=true; $('listView').hidden=false;
+const SNAP = (DATA.updatedAt||'').slice(0,10);
+const TODAY = new Date().toISOString().slice(0,10);
+const SRC = {github:{n:'GitHub',m:'GH'},gitlab:{n:'GitLab',m:'GL'},codeberg:{n:'Codeberg',m:'CB'},gitea:{n:'Gitea',m:'GT'},bitbucket:{n:'Bitbucket',m:'BB'}};
+const MODES = {docker:'容器部署',local:'本機安裝',build:'原始碼編譯',read:'閱讀學習',hw:'需實體硬體',cloud:'需雲端帳號'};
+const DIFFS = ['入門','入門–進階','中階','進階'];
+const RISK = {
+  pipe:{w:12,l:'管線安裝腳本'}, root:{w:8,l:'需要 root / 管理員權限'}, sock:{w:14,l:'掛載 docker.sock'},
+  priv:{w:10,l:'特權容器'}, bin:{w:4,l:'預編譯執行檔'}, keys:{w:3,l:'需外部帳號或金鑰'}, telem:{w:5,l:'遙測 / 資料外送'},
+  offensive:{w:6,l:'攻擊性內容'}, beta:{w:6,l:'測試階段'}, intercept:{w:6,l:'攔截加密流量'}, exec:{w:8,l:'執行任意程式碼'},
+  mirror:{w:3,l:'鏡像儲存庫'}, dl:{w:3,l:'自動下載大型資源'}, weak:{w:8,l:'預設弱密碼'}, unmaint:{w:0,l:'已停止維護'},
+  expose:{w:5,l:'對外開放服務'}, token:{w:2,l:'本機儲存權杖'}, lic:{w:3,l:'授權條款需留意'}, policy:{w:0,l:'貢獻規範'}, breaking:{w:2,l:'版本相容性'}
+};
+const LIC = {
+  permissive:{t:'寬鬆授權',d:'可自由使用、修改與商用，散布時保留原作者著作權與授權聲明即可。'},
+  copyleft:{t:'Copyleft 授權',d:'可使用與修改；若散布修改後的版本，必須以相同授權公開原始碼。'},
+  agpl:{t:'強 Copyleft（含網路）',d:'除散布外，若把修改版架成網路服務讓他人使用，也必須公開原始碼。'},
+  mpl:{t:'檔案層級 Copyleft',d:'修改過的 MPL 檔案需公開，其餘自寫的程式可用其他授權。'},
+  noassert:{t:'非標準授權',d:'GitHub 無法辨識授權類型（常見於 fair-code、加上品牌條款或多重授權的專案）。商用或再散布前請直接閱讀 LICENSE 檔。'},
+  none:{t:'未標示授權',d:'沒有授權檔時著作權預設保留，可閱讀與學習，但複製、修改或散布需取得作者同意。'}
+};
+function licKind(l){ if(!l) return 'none'; if(l==='NOASSERTION') return 'noassert';
+  if(/^AGPL/.test(l)) return 'agpl'; if(/^(L?GPL)/.test(l)) return 'copyleft'; if(/^MPL/.test(l)) return 'mpl'; return 'permissive'; }
+
+const today = new Date(TODAY+'T00:00:00Z');
+function daysSince(d){ return d ? Math.round((today - new Date(d+'T00:00:00Z'))/864e5) : null; }
+
+function assess(p){
+  const sig=[]; let s=90;
+  const lk=licKind(p.lic);
+  if(lk==='none'){ s-=8; sig.push([-8,'未標示授權','沒有 LICENSE，法律上預設保留所有權利']); }
+  else if(lk==='noassert'){ s-=5; sig.push([-5,'非標準授權','請閱讀 LICENSE 確認可用範圍']); }
+  else sig.push([0,'授權明確',p.lic]);
+  if(p.ar){ s-=30; sig.push([-30,'儲存庫已封存','不會再收到修補，包含安全更新']); }
+  const ds=daysSince(p.p);
+  if(ds!==null){
+    if(ds>365){ s-=15; sig.push([-15,'超過一年未更新','最後更新 '+p.p]); }
+    else if(ds>180){ s-=7; sig.push([-7,'半年以上未更新','最後更新 '+p.p]); }
+    else sig.push([0,'近期仍有維護','最後更新 '+p.p]);
+  } else { s-=2; sig.push([-2,'更新時間未知','此平台未提供可擷取的更新時間']); }
+  if(p.s!=null){
+    if(p.s>=10000){ s+=4; sig.push([4,'社群規模大','星數 '+fmt(p.s)+'，被大量使用與檢視']); }
+    else if(p.s>=1000){ s+=2; sig.push([2,'社群規模中等','星數 '+fmt(p.s)]); }
+    else if(p.s<100){ s-=3; sig.push([-3,'社群規模小','星數 '+p.s+'，檢視的人較少']); }
+    const age=daysSince(p.c);
+    if(p.f && age!==null && age<365 && p.s/p.f>25){ s-=10; sig.push([-10,'星數成長異常','新專案星數 / Fork 比偏高，請留意刷星']); }
+  } else sig.push([0,'平台無星數','Bitbucket 不提供公開星數']);
+  for(const [k,t] of (p.r||[])){ const R=RISK[k]||{w:3,l:k}; if(R.w){ s-=R.w; } sig.push([-R.w,R.l,t]); }
+  for(const [k,t] of (p.auto||[])){ const R=RISK[k]||{w:3,l:k}; const w=Math.ceil(R.w/2); s-=w; sig.push([-w,'自動偵測：'+R.l,t]); }
+  s=Math.max(0,Math.min(100,Math.round(s)));
+  const lv = s>=80?'ok':s>=60?'warn':'risk';
+  return {score:s,level:lv,label:{ok:'低風險',warn:'需留意',risk:'高風險'}[lv],sig};
+}
+function fmt(n){ if(n==null) return '—'; if(n>=1e5) return Math.round(n/1e3)+'k'; if(n>=1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'')+'k'; return String(n); }
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const P = DATA.projects.map(p=>{ const a=assess(p); return Object.assign(p,{a,hay:[p.n,p.d,p.ov,p.lang,p.cat,p.diff,(p.top||[]).join(' '),p.feat.join(' '),p.modes.map(m=>MODES[m]).join(' '),SRC[p.src].n].join(' ').toLowerCase()}); });
+
+const state={q:'',sort:'stars',src:new Set(),cat:new Set(),modes:new Set(),safe:new Set(),diff:new Set()};
+try{ const s=localStorage.getItem('atlas-sort'); if(s) state.sort=s; }catch(e){}
+$('sort').value=state.sort;
+
+const CATS=[...new Set(P.map(p=>p.cat))];
+const SAFE=[['ok','低風險'],['warn','需留意'],['risk','高風險']];
+
+function matches(p,skip){
+  if(state.q){ const terms=state.q.toLowerCase().split(/\s+/).filter(Boolean); if(!terms.every(t=>p.hay.includes(t))) return false; }
+  if(skip!=='src' && state.src.size && !state.src.has(p.src)) return false;
+  if(skip!=='cat' && state.cat.size && !state.cat.has(p.cat)) return false;
+  if(skip!=='modes' && state.modes.size && ![...state.modes].every(m=>p.modes.includes(m))) return false;
+  if(skip!=='safe' && state.safe.size && !state.safe.has(p.a.level)) return false;
+  if(skip!=='diff' && state.diff.size && !state.diff.has(p.diff)) return false;
+  return true;
+}
+function chipGroup(el,key,opts,countFn){
+  el.innerHTML=opts.map(([v,l])=>{ const c=countFn(v); const on=state[key].has(v);
+    return `<button class="chip" data-k="${key}" data-v="${esc(v)}" aria-pressed="${on}" ${!c&&!on?'disabled':''}>${esc(l)}<span class="c">${c}</span></button>`; }).join('');
+}
+function renderFilters(){
+  const cnt=(key,test)=>v=>P.filter(p=>matches(p,key)&&test(p,v)).length;
+  chipGroup($('f-src'),'src',Object.keys(SRC).map(k=>[k,SRC[k].n]),cnt('src',(p,v)=>p.src===v));
+  chipGroup($('f-cat'),'cat',CATS.map(c=>[c,c]),cnt('cat',(p,v)=>p.cat===v));
+  chipGroup($('f-modes'),'modes',Object.entries(MODES),cnt('modes',(p,v)=>p.modes.includes(v)));
+  chipGroup($('f-safe'),'safe',SAFE,cnt('safe',(p,v)=>p.a.level===v));
+  chipGroup($('f-diff'),'diff',DIFFS.map(d=>[d,d]),cnt('diff',(p,v)=>p.diff===v));
+  const n=['src','cat','modes','safe','diff'].reduce((a,k)=>a+state[k].size,0);
+  $('activeCount').textContent=n?`已選 ${n}`:'';
+}
+function sorted(list){
+  const by={
+    stars:(a,b)=>(b.s??-1)-(a.s??-1)||(b.p||'').localeCompare(a.p||''),
+    forks:(a,b)=>(b.f??-1)-(a.f??-1)||(b.s??-1)-(a.s??-1),
+    recent:(a,b)=>(b.p||'').localeCompare(a.p||'')||(b.s??-1)-(a.s??-1),
+    safety:(a,b)=>b.a.score-a.a.score||(b.s??-1)-(a.s??-1),
+    name:(a,b)=>a.n.split('/')[1].localeCompare(b.n.split('/')[1])
+  }[state.sort];
+  return list.slice().sort(by);
+}
+function rowHTML(p){
+  const [o,r]=p.n.split('/');
+  const sub = state.sort==='forks'?`<span class="big num">${fmt(p.f)}</span>Fork`:
+              state.sort==='recent'?`<span class="big num">${p.p?p.p.slice(5):'—'}</span>${p.p?p.p.slice(0,4):'未知'}`:
+              `<span class="big num">${p.s==null?'—':fmt(p.s)}</span>${p.s==null?'無星數':'星數'}`;
+  return `<a class="row" href="#${p.id}">
+    <span class="mark ${p.src}" title="${SRC[p.src].n}">${SRC[p.src].m}</span>
+    <span style="min-width:0">
+      <span class="rname"><span class="owner">${esc(o)}/</span>${esc(r)}</span>
+      <span class="rdesc">${esc(p.ov)}</span>
+      <span class="tags"><span class="tag cat">${esc(p.cat)}</span><span class="tag">${esc(p.diff)}</span>${p.lang?`<span class="tag">${esc(p.lang)}</span>`:''}${p.modes.map(m=>`<span class="tag">${MODES[m]}</span>`).join('')}</span>
+    </span>
+    <span class="stat">${sub}</span>
+    <span class="safe"><span class="pill ${p.a.level}"><i></i>${p.a.label}</span><span class="sc">安全 ${p.a.score}/100</span></span>
+  </a>`;
+}
+function renderList(){
+  renderFilters();
+  const list=sorted(P.filter(p=>matches(p)));
+  $('count').textContent=`顯示 ${list.length} / ${P.length} 個專案`;
+  $('list').innerHTML=list.length?list.map(rowHTML).join(''):`<div class="empty">沒有符合條件的專案。試試減少篩選條件或換個關鍵字。</div>`;
+}
+
+function cites(p){
+  const [o,r]=p.n.split('/'); const y=(p.p||SNAP).slice(0,4); const plat=SRC[p.src].n;
+  return {
+    APA:`${o}. (${y}). ${r} [Computer software]. ${plat}. ${p.url}`,
+    BibTeX:`@software{${(o+'_'+r).replace(/[^A-Za-z0-9_]/g,'_')}_${y},\n  author = {${o}},\n  title = {${r}},\n  year = {${y}},\n  publisher = {${plat}},\n  url = {${p.url}},\n  note = {License: ${p.lic||'unspecified'}. Accessed ${TODAY}}\n}`,
+    Markdown:`[${p.n}](${p.url}) — ${p.lic||'未標示授權'}（${plat}，取用於 ${TODAY}）`
+  };
+}
+function list(arr){ return arr.length?`<ul>${arr.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="note">文件未特別列出。</p>'; }
+function renderDetail(p){
+  const [o,r]=p.n.split('/'); const a=p.a; const lk=LIC[licKind(p.lic)]; const C=cites(p);
+  const col={ok:'var(--ok)',warn:'var(--warn)',risk:'var(--risk)'}[a.level];
+  const cmd=p.ins.length?`<div class="code"><button class="copy" data-copy="ins">複製</button><pre>${p.ins.map(c=>`<span class="ps">$ </span>${esc(c)}`).join('\n')}</pre></div>`:'<p class="note">文件未提供可直接複製的指令，請依官方網站的安裝說明操作。</p>';
+  $('detailView').innerHTML=`
+  <a class="back" href="#">← 回到專案列表</a>
+  <div class="dhead">
+    <span class="mark ${p.src}">${SRC[p.src].m}</span>
+    <div style="min-width:0">
+      <h2><span style="color:var(--muted);font-weight:400">${esc(o)}/</span>${esc(r)}</h2>
+      ${p.d?`<p class="orig">${esc(p.d)}</p>`:''}
+      <div class="dlinks">
+        <a class="btn primary" href="${esc(p.url)}" target="_blank" rel="noopener">在 ${SRC[p.src].n} 查看原始碼 ↗</a>
+        ${p.home?`<a class="btn" href="${esc(p.home)}" target="_blank" rel="noopener">官方網站 ↗</a>`:''}
+      </div>
+    </div>
+  </div>
+  <div class="facts">
+    <div class="fact"><span>星數</span><b class="num">${p.s==null?'—':p.s.toLocaleString()}</b></div>
+    <div class="fact"><span>Fork</span><b class="num">${p.f==null?'—':p.f.toLocaleString()}</b></div>
+    <div class="fact"><span>開放議題</span><b class="num">${p.i==null?'—':p.i.toLocaleString()}</b></div>
+    <div class="fact"><span>主要語言</span><b>${esc(p.lang||'—')}</b></div>
+    <div class="fact"><span>授權</span><b>${esc(p.lic||'未標示')}</b></div>
+    <div class="fact"><span>最後更新</span><b class="num">${p.p||'—'}</b></div>
+  </div>
+  <div class="dgrid">
+    <div style="min-width:0">
+      <section class="sec"><h3>概覽</h3><p>${esc(p.ov)}</p>
+        <div class="tags"><span class="tag cat">${esc(p.cat)}</span><span class="tag">${esc(p.diff)}</span>${p.modes.map(m=>`<span class="tag">${MODES[m]}</span>`).join('')}${(p.top||[]).map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}</div>
+        ${p.rm?'':`<p class="note">此平台的 README 無法自動擷取，內容整理自專案描述與官方文件。</p>`}
+      </section>
+      <section class="sec"><h3>主要功能</h3>${list(p.feat)}</section>
+      <section class="sec"><h3>實操練習</h3><ol class="tasks">${p.tasks.map(t=>`<li><span>${esc(t)}</span></li>`).join('')}</ol></section>
+      <section class="sec"><h3>安裝與部署</h3>${cmd}${p.insN?`<p class="note">${esc(p.insN)}</p>`:''}</section>
+      <section class="sec"><h3>系統需求</h3>
+        <div class="req">
+          <div><h4>軟體</h4>${list(p.sw)}</div>
+          <div><h4>硬體${p.he&&p.hw.length?'<span class="est">含估計值</span>':''}</h4>${list(p.hw)}</div>
+          <div><h4>作業系統 / 平台</h4>${list(p.os)}</div>
+        </div>
+      </section>
+    </div>
+    <div style="min-width:0">
+      <section class="sec panel"><h3>安全評估</h3>
+        <div class="gauge"><span class="n num" style="color:${col}">${a.score}</span><span class="pill ${a.level}"><i></i>${a.label}</span></div>
+        <div class="meter" role="img" aria-label="安全分數 ${a.score} / 100"><i style="width:${a.score}%;background:${col}"></i></div>
+        <div class="scale"><span>0</span><span>60</span><span>80</span><span>100</span></div>
+        <ul class="signals">${a.sig.map(([d,l,t])=>`<li><span class="d num ${d<0?'neg':d>0?'pos':''}">${d>0?'+'+d:d<0?d:'·'}</span><span><b>${esc(l)}</b><br><span style="color:var(--muted)">${esc(t)}</span></span></li>`).join('')}</ul>
+        <details class="check"><summary>執行前的安全檢查清單</summary><ol>
+          <li>只從上方的官方原始碼連結或官方網站下載，避開同名的轉載與「破解版」。</li>
+          <li>遇到 <span class="mono">curl … | sh</span> 這類指令，先把腳本下載下來讀過再執行。</li>
+          <li>下載執行檔後比對官方公布的 SHA256 或簽章；也可把檔案上傳到 VirusTotal 交叉掃描。</li>
+          <li>第一次執行時放在虛擬機或容器中，不要用主力電腦的管理員帳號。</li>
+          <li>用 osv-scanner、npm audit 或 pip-audit 檢查相依套件是否有已知漏洞。</li>
+          <li>對外開放的服務要改掉預設密碼，並放在反向代理與 HTTPS 之後。</li>
+        </ol></details>
+      </section>
+      <section class="sec panel"><h3>授權與引用</h3>
+        <div class="lic-box"><b>${esc(p.lic||'未標示授權')}</b><span>${lk.t}：${lk.d}</span></div>
+        ${p.q?`<blockquote>“${esc(p.q)}”<cite>— ${esc(p.n)} README，${esc(p.lic||'未標示授權')}</cite></blockquote>`:''}
+        <div style="margin-top:16px">
+          <div class="cite-tabs" role="tablist">${Object.keys(C).map((k,i)=>`<button role="tab" data-cite="${k}" aria-selected="${i===0}">${k}</button>`).join('')}</div>
+          <div class="code"><button class="copy" data-copy="cite">複製</button><pre id="citeBox" style="white-space:pre-wrap;word-break:break-word">${esc(C.APA)}</pre></div>
+          <p class="note">引用程式碼片段時，請一併附上原專案連結與授權名稱。</p>
+        </div>
+      </section>
+    </div>
+  </div>`;
+  const view=$('detailView');
+  view.querySelectorAll('[data-cite]').forEach(b=>b.onclick=()=>{ view.querySelectorAll('[data-cite]').forEach(x=>x.setAttribute('aria-selected',x===b)); $('citeBox').textContent=C[b.dataset.cite]; });
+  view.querySelector('[data-copy="cite"]').onclick=e=>copy($('citeBox').textContent,e.target);
+  const ci=view.querySelector('[data-copy="ins"]'); if(ci) ci.onclick=e=>copy(p.ins.join('\n'),e.target);
+}
+
+let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,1600); }
+function copy(text,btn){
+  const fallback=()=>{ const pre=btn.parentElement.querySelector('pre'); const sel=getSelection(); const rg=document.createRange(); rg.selectNodeContents(pre); sel.removeAllRanges(); sel.addRange(rg); toast('已選取文字，請按 Ctrl/⌘ + C 複製'); };
+  try{ navigator.clipboard.writeText(text).then(()=>toast('已複製'),fallback); }catch(e){ fallback(); }
+}
+
+function setTab(t){ $('tabMain').setAttribute('aria-selected',t!=='cand'); $('tabCand').setAttribute('aria-selected',t==='cand'); }
+function route(){
+  const h=location.hash.slice(1); const p=P.find(x=>x.id===h);
+  $('detailView').hidden=true; $('listView').hidden=true; $('candView').hidden=true;
+  if(p){ renderDetail(p); $('detailView').hidden=false; window.scrollTo(0,0); document.title=p.n+' · 開源實作圖鑑'; setTab('main'); return; }
+  document.title='開源實作圖鑑';
+  if(h==='cand'){ renderCand(); $('candView').hidden=false; setTab('cand'); }
+  else { $('listView').hidden=false; setTab('main'); }
+}
+$('tabMain').onclick=()=>{ location.hash=''; route(); };
+$('tabCand').onclick=()=>{ location.hash='cand'; };
+
+// ---- 自動發現候選 ----
+const CI=(CAND.items||[]).map(c=>{ const x=Object.assign({r:[],auto:[]},c); x.a=assess(x); return x; });
+function renderCand(){
+  $('candCount').textContent=`${CI.length} 個候選專案`;
+  $('candAt').textContent=CAND.updatedAt?'抓取於 '+CAND.updatedAt.slice(0,10):'';
+  $('candList').innerHTML=CI.length?CI.map(p=>{ const [o,r]=p.n.split('/').length>1?[p.n.slice(0,p.n.lastIndexOf('/')),p.n.slice(p.n.lastIndexOf('/')+1)]:['',p.n];
+    return `<a class="row ext" href="${esc(p.url)}" target="_blank" rel="noopener">
+      <span class="mark ${p.src}" title="${SRC[p.src].n}">${SRC[p.src].m}</span>
+      <span style="min-width:0"><span class="rname"><span class="owner">${esc(o)}/</span>${esc(r)}</span>
+        <span class="rdesc">${esc(p.d||'（沒有描述）')}</span>
+        <span class="tags"><span class="tag">未審核</span>${p.lang?`<span class="tag">${esc(p.lang)}</span>`:''}${(p.top||[]).slice(0,4).map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}${p.c?`<span class="tag">建立於 ${p.c}</span>`:''}</span></span>
+      <span class="stat"><span class="big num">${fmt(p.s)}</span>星數</span>
+      <span class="safe"><span class="pill ${p.a.level}"><i></i>${p.a.label}</span><span class="sc">初評 ${p.a.score}/100</span></span></a>`; }).join('')
+    :`<div class="empty">第一次排程執行後，這裡會出現每週自動抓到的新興熱門專案。</div>`;
+}
+
+// ---- 即時更新（瀏覽器直接讀取各平台 API）----
+const LIVE_KEY='atlas-live-v1', COOL_KEY='atlas-live-cool', COOLDOWN=5*60*1000;
+const API={
+  github:n=>[`https://api.github.com/repos/${n}`,r=>({s:r.stargazers_count,f:r.forks_count,i:r.open_issues_count,p:(r.pushed_at||'').slice(0,10),ar:r.archived})],
+  gitlab:n=>[`https://gitlab.com/api/v4/projects/${encodeURIComponent(n)}`,r=>({s:r.star_count,f:r.forks_count,i:r.open_issues_count,p:(r.last_activity_at||'').slice(0,10),ar:r.archived})],
+  codeberg:n=>[`https://codeberg.org/api/v1/repos/${n}`,r=>({s:r.stars_count,f:r.forks_count,i:r.open_issues_count,p:(r.updated_at||'').slice(0,10),ar:r.archived})],
+  gitea:n=>[`https://gitea.com/api/v1/repos/${n}`,r=>({s:r.stars_count,f:r.forks_count,i:r.open_issues_count,p:(r.updated_at||'').slice(0,10),ar:r.archived})],
+  bitbucket:n=>[`https://api.bitbucket.org/2.0/repositories/${n}`,r=>({p:(r.updated_on||'').slice(0,10)})]
+};
+const hhmm=iso=>{ const d=new Date(iso); return d.toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})+' '+d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit',hour12:false}); };
+function liveLine(msg){ $('liveStatus').innerHTML=msg; }
+function applyLive(cache){
+  for(const p of P){ const v=cache.v[p.id]; if(!v) continue; for(const k in v){ if(v[k]!==null&&v[k]!==undefined&&v[k]!=='') p[k]=v[k]; } p.a=assess(p); }
+  liveLine(`<span class="dot"></span>即時數據 ${hhmm(cache.at)}`);
+  renderList(); if(!$('detailView').hidden) route();
+}
+async function liveRefresh(){
+  const btn=$('liveBtn'); btn.disabled=true; btn.classList.add('busy'); liveLine('正在向各平台讀取…');
+  const res={}, stats={}; let ghLimited=false; const q=[...P];
+  async function worker(){ while(q.length){ const p=q.shift(); const st=stats[p.src]||(stats[p.src]={ok:0,n:0}); st.n++;
+    if(p.src==='github'&&ghLimited) continue;
+    const [url,map]=API[p.src](p.n);
+    try{ const ctl=new AbortController(); const tm=setTimeout(()=>ctl.abort(),12000);
+      const r=await fetch(url,{signal:ctl.signal}); clearTimeout(tm);
+      if((r.status===403||r.status===429)&&p.src==='github'){ ghLimited=true; continue; }
+      if(!r.ok) continue; res[p.id]=map(await r.json()); st.ok++;
+    }catch(e){} } }
+  await Promise.all(Array.from({length:6},worker));
+  btn.classList.remove('busy');
+  const parts=Object.keys(SRC).filter(k=>stats[k]).map(k=>`${SRC[k].n} ${stats[k].ok}/${stats[k].n}`);
+  const n=Object.keys(res).length;
+  if(n){ const cache={at:new Date().toISOString(),v:res}; try{ localStorage.setItem(LIVE_KEY,JSON.stringify(cache)); }catch(e){} applyLive(cache); }
+  const fails=Object.keys(stats).filter(k=>stats[k].ok<stats[k].n).map(k=>SRC[k].n);
+  toast(n?`已更新 ${n} 個專案：${parts.join('、')}`:'目前無法連到平台，沿用每週資料');
+  if(fails.length) liveLine(`${n?'<span class="dot"></span>即時數據 '+hhmm(new Date().toISOString())+' · ':''}${fails.join('、')} 部分未更新${ghLimited?'（GitHub 每小時限 60 次）':''}，沿用每週資料`);
+  try{ localStorage.setItem(COOL_KEY,String(Date.now())); }catch(e){}
+  setTimeout(()=>{ btn.disabled=false; },COOLDOWN);
+}
+$('liveBtn').addEventListener('click',liveRefresh);
+try{ const last=+localStorage.getItem(COOL_KEY)||0; const left=COOLDOWN-(Date.now()-last); if(left>0){ $('liveBtn').disabled=true; setTimeout(()=>$('liveBtn').disabled=false,left); } }catch(e){}
+
+// tally
+const bySrc={}; P.forEach(p=>bySrc[p.src]=(bySrc[p.src]||0)+1);
+$('tally').innerHTML=`<span><b>${P.length}</b> 個專案</span>`+Object.keys(SRC).map(k=>`<span>${SRC[k].n} <b>${bySrc[k]||0}</b></span>`).join('');
+$('snap').textContent='每週資料 '+SNAP; $('snap2').textContent=SNAP;
+$('mainN').textContent=P.length; $('candN').textContent=CI.length||'';
+liveLine('每週資料 '+SNAP);
+if(DATA.repo){ $('adminLine').innerHTML=`維護者：<a href="https://github.com/${esc(DATA.repo)}/actions/workflows/update-and-deploy.yml" target="_blank" rel="noopener">在 GitHub Actions 手動執行完整更新</a>（含新專案發現與 README 安全偵測）· <a href="https://github.com/${esc(DATA.repo)}" target="_blank" rel="noopener">原始碼</a>`; }
+
+document.addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  const set=state[c.dataset.k]; const v=c.dataset.v; set.has(v)?set.delete(v):set.add(v); renderList();
+});
+let deb; $('q').addEventListener('input',e=>{ clearTimeout(deb); deb=setTimeout(()=>{ state.q=e.target.value.trim(); renderList(); },120); });
+$('sort').addEventListener('change',e=>{ state.sort=e.target.value; try{localStorage.setItem('atlas-sort',state.sort)}catch(_){} renderList(); });
+$('reset').addEventListener('click',()=>{ ['src','cat','modes','safe','diff'].forEach(k=>state[k].clear()); state.q=''; $('q').value=''; renderList(); });
+$('railToggle').addEventListener('click',()=>{ const b=$('railBody'); const o=b.dataset.open!=='true'; b.dataset.open=o; $('railToggle').setAttribute('aria-expanded',o); });
+window.addEventListener('hashchange',route);
+renderList(); route();
+try{ const c=JSON.parse(localStorage.getItem(LIVE_KEY)||'null'); if(c&&c.at>(DATA.updatedAt||'')&&Date.now()-new Date(c.at)<7*864e5) applyLive(c); }catch(e){}
+})();
+</script>
+</body>
+</html>

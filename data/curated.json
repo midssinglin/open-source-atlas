@@ -1,0 +1,3046 @@
+{
+ "_note": "人工策展欄位：分類、難度、概覽、功能、實操練習、需求、安裝指令與已知風險。新增專案時在此加一筆，指標由 scripts/update.mjs 自動補上。",
+ "projects": [
+  {
+   "id": "gh-n8n-io-n8n",
+   "src": "github",
+   "n": "n8n-io/n8n",
+   "url": "https://github.com/n8n-io/n8n",
+   "lic": "NOASSERTION",
+   "home": "https://n8n.io",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "n8n 是一個 fair-code 授權的工作流程自動化平台，可用視覺化畫布串接超過 1500 種服務，也能插入自訂程式碼。支援自行架設或使用官方雲端版本，近年主打 AI 代理與多步驟 AI 工作流。",
+   "feat": [
+    "視覺化畫布建構工作流程，可插入 JavaScript / Python 程式碼",
+    "可連接 OpenAI、Anthropic、Google 或開源模型，切換供應商不必改架構",
+    "提供人工審核節點與完整執行紀錄，方便除錯",
+    "支援自架、角色權限與稽核紀錄"
+   ],
+   "tasks": [
+    "用 Docker 架起 n8n，做一個「RSS 有新文章 → 發 Telegram / Email 通知」的工作流",
+    "接上本機 Ollama 模型，做一個自動摘要網頁內容的 AI 工作流"
+   ],
+   "sw": [
+    "Docker（建議）"
+   ],
+   "hw": [
+    "2 vCPU / 2 GB RAM 起"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "curl -fsSL https://get.n8n.io | sh"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "README 首推 curl | sh 安裝腳本，建議先下載腳本閱讀內容再執行"
+    ],
+    [
+     "keys",
+     "串接 AI 模型與第三方服務需各自的 API 金鑰"
+    ]
+   ],
+   "q": "Fair-code platform to build and deploy AI agents and workflows.",
+   "rm": true
+  },
+  {
+   "id": "gh-immich-app-immich",
+   "src": "github",
+   "n": "immich-app/immich",
+   "url": "https://github.com/immich-app/immich",
+   "lic": "AGPL-3.0",
+   "home": "https://immich.app",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "Immich 是高效能、可自行架設的照片與影片管理系統，提供網頁與手機 App。常被視為 Google 相簿的自架替代方案，支援多使用者與共享相簿。",
+   "feat": [
+    "手機 App 開啟時自動備份照片與影片",
+    "多使用者、相簿與共享相簿",
+    "可依人臉、物件、中繼資料與 CLIP 語意搜尋",
+    "支援 RAW、LivePhoto / MotionPhoto 與地圖檢視"
+   ],
+   "tasks": [
+    "在舊筆電或 NAS 上部署，手機設定自動備份",
+    "研究機器學習容器如何做人臉分群與 CLIP 搜尋"
+   ],
+   "sw": [
+    "Docker",
+    "Docker Compose"
+   ],
+   "hw": [
+    "RAM 最少 6 GB，建議 8 GB",
+    "CPU 最少 2 核，建議 4 核",
+    "依照片量準備足夠硬碟空間"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "mkdir immich-app && cd immich-app",
+    "wget -O docker-compose.yml https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml",
+    "wget -O .env https://github.com/immich-app/immich/releases/latest/download/example.env",
+    "docker compose up -d"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [
+    [
+     "dl",
+     "機器學習容器首次啟動會自動下載模型檔"
+    ]
+   ],
+   "q": "High performance self-hosted photo and video management solution",
+   "rm": true
+  },
+  {
+   "id": "gh-stirling-tools-stirling-pdf",
+   "src": "github",
+   "n": "Stirling-Tools/Stirling-PDF",
+   "url": "https://github.com/Stirling-Tools/Stirling-PDF",
+   "lic": "NOASSERTION",
+   "home": "https://stirling.com",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Stirling PDF 是開源的 PDF 編輯平台，可當桌面程式、在瀏覽器操作，或部署在自己的伺服器提供私有 API。文件全程在自己的機器處理，不必上傳到外部服務。",
+   "feat": [
+    "50 多種 PDF 工具：合併、分割、簽署、遮蔽、轉檔、OCR、壓縮",
+    "無程式碼的自動化流程，可批次處理",
+    "幾乎所有工具都有 REST API",
+    "介面支援 40 多種語言"
+   ],
+   "tasks": [
+    "用 Docker 部署後，透過 REST API 寫一支批次合併 PDF 的腳本",
+    "比較它的 OCR 結果與 Tesseract 原生輸出"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [
+    "約 2 GB RAM，啟用 OCR 時需要更多"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -p 8080:8080 docker.stirlingpdf.com/stirlingtools/stirling-pdf"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Edit, sign, redact, convert, and automate PDFs without sending documents to external services.",
+   "rm": true
+  },
+  {
+   "id": "gh-louislam-uptime-kuma",
+   "src": "github",
+   "n": "louislam/uptime-kuma",
+   "url": "https://github.com/louislam/uptime-kuma",
+   "lic": "MIT",
+   "home": "https://uptime.kuma.pet",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Uptime Kuma 是一套簡潔好用的自架監控工具，持續偵測網站、服務與容器的運作狀態，異常時透過多種管道通知。適合想取代第三方監控服務、自己掌握資料的人。",
+   "feat": [
+    "支援 HTTP(s)、TCP、Ping、DNS、WebSocket、Docker 容器等監控",
+    "90 多種通知管道（Telegram、Discord、Email…）",
+    "可建立多個公開狀態頁並綁定網域",
+    "憑證到期提醒與雙因素驗證"
+   ],
+   "tasks": [
+    "監控自己架的其他服務，設定 Discord 斷線通知",
+    "建立公開狀態頁並綁定自訂網域"
+   ],
+   "sw": [
+    "Docker",
+    "或 Node.js ≥ 20.4 + Git + pm2"
+   ],
+   "hw": [
+    "1 vCPU / 512 MB RAM 即可"
+   ],
+   "he": true,
+   "os": [
+    "主流 Linux 發行版",
+    "Windows 10 (x64)",
+    "Windows Server 2012 R2 以上"
+   ],
+   "ins": [
+    "mkdir uptime-kuma",
+    "cd uptime-kuma",
+    "curl -o compose.yaml https://raw.githubusercontent.com/louislam/uptime-kuma/master/compose.yaml",
+    "docker compose up -d"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Uptime Kuma is an easy-to-use self-hosted monitoring tool.",
+   "rm": true
+  },
+  {
+   "id": "gh-usememos-memos",
+   "src": "github",
+   "n": "usememos/memos",
+   "url": "https://github.com/usememos/memos",
+   "lic": "MIT",
+   "home": "https://usememos.com",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "Memos 是可自行架設的時間軸筆記工具，用 Markdown 快速記錄想法。每則筆記可設為私人、登入可見或公開，專案聲明零遙測，資料完全由自己掌控。",
+   "feat": [
+    "Markdown 撰寫，可附圖片與檔案",
+    "標籤、搜尋、時間軸回顧與釘選",
+    "預設私人，可改為公開分享",
+    "完整資料匯出與瀏覽器剪輯擴充功能"
+   ],
+   "tasks": [
+    "用 Docker 部署，嘗試用 API 從腳本寫入筆記",
+    "閱讀 Go 後端與 React 前端，練習全端專案結構"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [
+    "資源需求極低，約 256 MB RAM"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d --name memos -p 5230:5230 -v ~/.memos:/var/opt/memos neosmemo/memos:stable"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Your thoughts, your data, shared on your terms.",
+   "rm": true
+  },
+  {
+   "id": "gh-coollabsio-coolify",
+   "src": "github",
+   "n": "coollabsio/coolify",
+   "url": "https://github.com/coollabsio/coolify",
+   "lic": "Apache-2.0",
+   "home": "https://coolify.io",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "Coolify 是開源、可自架的 PaaS，定位為 Heroku、Netlify、Vercel 的替代方案。只要能 SSH 連到 VPS、實體機或樹莓派，就能在上面部署應用程式與資料庫；設定檔留在自己的伺服器上。",
+   "feat": [
+    "從 GitHub / GitLab / Bitbucket / Gitea 建置並自動部署",
+    "300 多種一鍵服務與資料庫",
+    "Pull Request 預覽環境與版本回滾",
+    "自動 HTTPS、反向代理、備份與排程"
+   ],
+   "tasks": [
+    "在 VPS 部署 Coolify，把自己的 GitHub 專案設成 push 後自動部署",
+    "一鍵安裝 PostgreSQL 並設定定期備份到 S3"
+   ],
+   "sw": [
+    "SSH",
+    "Docker（安裝腳本會自動安裝）"
+   ],
+   "hw": [
+    "最少 2 CPU / 2 GB RAM / 30 GB 硬碟"
+   ],
+   "he": true,
+   "os": [
+    "Linux（Debian、Ubuntu、CentOS 等）"
+   ],
+   "ins": [
+    "curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "以 curl | bash 安裝，建議先下載腳本檢視"
+    ],
+    [
+     "root",
+     "安裝需 root 權限，並會在主機安裝 Docker"
+    ]
+   ],
+   "q": "You only need an SSH connection.",
+   "rm": true
+  },
+  {
+   "id": "gh-go-gitea-gitea",
+   "src": "github",
+   "n": "go-gitea/gitea",
+   "url": "https://github.com/go-gitea/gitea",
+   "lic": "MIT",
+   "home": "https://gitea.com",
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "docker",
+    "build"
+   ],
+   "ov": "Gitea 是用 Go 寫的自架一站式開發平台，包含 Git 託管、程式碼審查、議題追蹤、專案看板、Wiki、套件庫，以及相容 GitHub Actions 的 CI/CD。單一執行檔，部署非常輕鬆。",
+   "feat": [
+    "Git 託管與程式碼審查",
+    "議題、看板、Wiki",
+    "內建套件註冊服務",
+    "相容 GitHub Actions 的 CI/CD"
+   ],
+   "tasks": [
+    "在本機架一個私有 Git 伺服器並啟用 Actions 跑 CI",
+    "和 Codeberg 上的 Forgejo 比較，理解軟分叉（soft fork）的差異"
+   ],
+   "sw": [
+    "Go 與 Node.js（從原始碼建置時）",
+    "資料庫：SQLite / MySQL / PostgreSQL"
+   ],
+   "hw": [
+    "Raspberry Pi 即可執行，建議 2 核 / 1 GB RAM"
+   ],
+   "he": true,
+   "os": [
+    "Linux",
+    "macOS",
+    "FreeBSD",
+    "OpenBSD",
+    "Windows"
+   ],
+   "ins": [
+    "TAGS=\"bindata\" make build",
+    "./gitea web"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Expected workflow is: Fork -> Patch -> Push -> Pull Request",
+   "rm": true
+  },
+  {
+   "id": "gh-appwrite-appwrite",
+   "src": "github",
+   "n": "appwrite/appwrite",
+   "url": "https://github.com/appwrite/appwrite",
+   "lic": "BSD-3-Clause",
+   "home": "https://appwrite.io",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "Appwrite 是開源的後端即服務（BaaS），整合驗證、資料庫、儲存、函式、訊息與即時通訊。可用官方雲端，也能用 Docker 自架，是 Firebase 的開源替代方案。",
+   "feat": [
+    "Email、OAuth、匿名等多種登入",
+    "資料庫、檔案儲存與 Serverless 函式",
+    "REST、GraphQL 與 WebSocket 即時事件",
+    "內建 MCP 伺服器，可讓 AI 代理操作專案"
+   ],
+   "tasks": [
+    "自架後用 Web SDK 做一個有登入功能的待辦清單",
+    "用 Functions 寫一個每日排程任務"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [
+    "最少 1 CPU / 2 GB RAM / 2 GB swap"
+   ],
+   "he": true,
+   "os": [
+    "Linux",
+    "macOS",
+    "Windows"
+   ],
+   "ins": [
+    "docker run -it --rm --publish 20080:20080 --volume /var/run/docker.sock:/var/run/docker.sock --volume \"$(pwd)\"/appwrite:/usr/src/code/appwrite:rw --entrypoint=\"install\" appwrite/appwrite:2.3.0"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "sock",
+     "安裝指令掛載 /var/run/docker.sock，等於讓容器取得主機 Docker 的完整控制權"
+    ]
+   ],
+   "q": "Appwrite was designed from the ground up with self-hosting in mind.",
+   "rm": true
+  },
+  {
+   "id": "gh-ollama-ollama",
+   "src": "github",
+   "n": "ollama/ollama",
+   "url": "https://github.com/ollama/ollama",
+   "lic": "MIT",
+   "home": "https://ollama.com",
+   "cat": "AI 與 LLM",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "docker"
+   ],
+   "ov": "Ollama 讓你在自己的電腦上下載並執行開源大型語言模型，提供命令列、REST API 與 Python / JavaScript 函式庫。是入門本地 LLM 最常見的起點。",
+   "feat": [
+    "一行指令下載並執行模型（Gemma、Qwen、DeepSeek…）",
+    "內建 REST API 與官方 SDK",
+    "可用 Modelfile 自訂提示與參數",
+    "官方 Docker 映像 ollama/ollama"
+   ],
+   "tasks": [
+    "本機跑一個 7B 模型，用 REST API 寫一支聊天小程式",
+    "寫 Modelfile 自訂系統提示，比較不同量化版本的速度與品質"
+   ],
+   "sw": [
+    "無（安裝程式內含執行環境）",
+    "Docker（選用）"
+   ],
+   "hw": [
+    "7B 模型約需 8 GB RAM",
+    "13B 約 16 GB、33B 約 32 GB",
+    "有 NVIDIA / AMD GPU 或 Apple Silicon 會快很多"
+   ],
+   "he": true,
+   "os": [
+    "macOS",
+    "Windows",
+    "Linux"
+   ],
+   "ins": [
+    "curl -fsSL https://ollama.com/install.sh | sh",
+    "ollama run gemma4"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "Linux 安裝為 curl | sh"
+    ],
+    [
+     "root",
+     "Linux 安裝腳本會使用 sudo 建立系統服務"
+    ],
+    [
+     "dl",
+     "模型權重動輒數 GB，請只從官方模型庫下載"
+    ]
+   ],
+   "q": "Start building with open models.",
+   "rm": true
+  },
+  {
+   "id": "gh-open-webui-open-webui",
+   "src": "github",
+   "n": "open-webui/open-webui",
+   "url": "https://github.com/open-webui/open-webui",
+   "lic": "NOASSERTION",
+   "home": "https://openwebui.com",
+   "cat": "AI 與 LLM",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Open WebUI 是可自架的 AI 聊天平台，同時支援 Ollama 與 OpenAI 相容 API，能串接本地與雲端模型，也能在完全離線的環境運作。",
+   "feat": [
+    "pip、Docker、Kubernetes 多種安裝方式",
+    "同時串接多家模型與本地 Ollama",
+    "內建 RAG 文件問答與網路搜尋",
+    "角色權限與 Tools / MCP 外掛"
+   ],
+   "tasks": [
+    "搭配 Ollama 架一個私人 ChatGPT 介面",
+    "上傳自己的 PDF 試用 RAG 文件問答"
+   ],
+   "sw": [
+    "Python 3.11",
+    "或 Docker",
+    "Ollama（選用）"
+   ],
+   "hw": [
+    "CPU 即可執行；NVIDIA GPU 可加速"
+   ],
+   "he": false,
+   "os": [
+    "Linux",
+    "WSL",
+    "macOS / Windows（桌面版）"
+   ],
+   "ins": [
+    "pip install open-webui",
+    "open-webui serve"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "使用雲端模型需 API 金鑰"
+    ]
+   ],
+   "q": "With support for Ollama and OpenAI-compatible APIs",
+   "rm": true
+  },
+  {
+   "id": "gh-langgenius-dify",
+   "src": "github",
+   "n": "langgenius/dify",
+   "url": "https://github.com/langgenius/dify",
+   "lic": "NOASSERTION",
+   "home": "https://dify.ai",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "Dify 是開源的 LLM 應用開發平台，整合視覺化工作流、RAG、Agent、模型管理與可觀測性，讓你從原型快速走到上線。官方提供 Docker Compose 自架方式。",
+   "feat": [
+    "視覺化畫布建構並測試 AI 工作流",
+    "數百種商用與開源模型可切換",
+    "RAG 管線：文件擷取到檢索一條龍",
+    "Agent 可連接工具、MCP 伺服器與自訂 API"
+   ],
+   "tasks": [
+    "部署後建立一個用自己文件回答問題的知識庫機器人",
+    "把工作流發布成 API，從自己的網頁呼叫"
+   ],
+   "sw": [
+    "Docker",
+    "Docker Compose v2.24.0 以上"
+   ],
+   "hw": [
+    "CPU ≥ 2 核",
+    "RAM ≥ 4 GiB"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/langgenius/dify.git",
+    "cd dify/docker",
+    "cp .env.example .env",
+    "docker compose up -d"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "接入各家 LLM 需 API 金鑰"
+    ],
+    [
+     "telem",
+     "可選的第三方可觀測性整合會把資料送出"
+    ]
+   ],
+   "q": "The easiest way to start the Dify server is through Docker Compose.",
+   "rm": true
+  },
+  {
+   "id": "gh-unslothai-unsloth",
+   "src": "github",
+   "n": "unslothai/unsloth",
+   "url": "https://github.com/unslothai/unsloth",
+   "lic": "Apache-2.0",
+   "home": "https://unsloth.ai/docs",
+   "cat": "AI 與 LLM",
+   "diff": "進階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Unsloth 是在本機執行與訓練大型語言模型、擴散模型與音訊模型的工具，有桌面 App、網頁介面與程式庫三種用法。以省 VRAM 的高速微調聞名。",
+   "feat": [
+    "LoRA、QLoRA、全參數微調與強化學習",
+    "可匯出 GGUF 等格式給 Ollama / llama.cpp",
+    "從 PDF、CSV、DOCX 建立訓練資料集",
+    "OpenAI 相容 API 提供模型服務"
+   ],
+   "tasks": [
+    "用 QLoRA 在小模型上微調一個中文問答資料集",
+    "把微調結果匯出成 GGUF 給 Ollama 使用"
+   ],
+   "sw": [
+    "Python 3.13"
+   ],
+   "hw": [
+    "NVIDIA / AMD / Intel GPU，或僅用 CPU",
+    "微調小模型建議至少 8 GB VRAM（估計）"
+   ],
+   "he": false,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "WSL"
+   ],
+   "ins": [
+    "curl -fsSL https://unsloth.ai/install.sh | sh",
+    "unsloth studio"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "以 curl | sh 安裝"
+    ],
+    [
+     "root",
+     "NVIDIA 工具包安裝需 sudo"
+    ],
+    [
+     "bin",
+     "會下載預編譯的 llama.cpp 等執行檔"
+    ],
+    [
+     "expose",
+     "對外開放伺服器時需自行做好存取控制"
+    ]
+   ],
+   "q": "Unsloth is the first desktop app to run and train models.",
+   "rm": true
+  },
+  {
+   "id": "gh-huggingface-transformers",
+   "src": "github",
+   "n": "huggingface/transformers",
+   "url": "https://github.com/huggingface/transformers",
+   "lic": "Apache-2.0",
+   "home": "https://huggingface.co/transformers",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Transformers 是 Hugging Face 的模型定義框架，涵蓋文字、視覺、音訊與多模態的先進模型，支援推論與訓練。可直接使用 Hub 上超過百萬個模型。",
+   "feat": [
+    "pipeline 高階介面，幾行就能推論",
+    "統一 API 使用大量預訓練模型",
+    "與主流訓練框架、推論引擎相容",
+    "支援文字、影像、音訊、多模態任務"
+   ],
+   "tasks": [
+    "用 pipeline 做情緒分析與摘要，比較不同模型表現",
+    "讀一個模型（如 BERT）的 modeling 檔案，理解架構實作"
+   ],
+   "sw": [
+    "Python 3.10+",
+    "PyTorch 2.5+"
+   ],
+   "hw": [
+    "小模型 CPU 即可；大型模型需要 GPU"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "python -m venv .my-env",
+    "source .my-env/bin/activate",
+    "pip install \"transformers[torch]\""
+   ],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "會從 Hub 下載模型權重；請優先使用 safetensors 格式並留意來源"
+    ]
+   ],
+   "q": "Transformers acts as the model-definition framework",
+   "rm": true
+  },
+  {
+   "id": "gh-harry0703-moneyprinterturbo",
+   "src": "github",
+   "n": "harry0703/MoneyPrinterTurbo",
+   "url": "https://github.com/harry0703/MoneyPrinterTurbo",
+   "lic": "MIT",
+   "home": null,
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "docker"
+   ],
+   "ov": "MoneyPrinterTurbo 輸入主題或關鍵字，就能自動產生腳本、配音、素材、字幕與背景音樂，輸出高畫質短影片。有 WebUI、API、CLI 與 Docker 用法。",
+   "feat": [
+    "主題 → 腳本 → 配音 → 字幕 → 成片自動化",
+    "支援本地素材或 Pexels / Pixabay",
+    "多家 LLM 與語音服務，含免費的 Edge TTS",
+    "輸出 9:16、16:9、1:1"
+   ],
+   "tasks": [
+    "只用免費的 Edge TTS 與 Pexels 素材產生一支 30 秒短片",
+    "閱讀它的 ffmpeg 合成流程，學習程式化剪輯"
+   ],
+   "sw": [
+    "Python 3.11+",
+    "ffmpeg",
+    "uv"
+   ],
+   "hw": [
+    "CPU 最低 4 核，建議 6–8 核",
+    "RAM 最低 4 GB，建議 8 GB",
+    "GPU 非必要"
+   ],
+   "he": false,
+   "os": [
+    "Windows 10+",
+    "macOS 11+",
+    "主流 Linux"
+   ],
+   "ins": [
+    "git clone https://github.com/harry0703/MoneyPrinterTurbo.git",
+    "cd MoneyPrinterTurbo",
+    "uv python install 3.11",
+    "uv sync --frozen"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "需要 LLM、語音或素材服務的 API 金鑰"
+    ],
+    [
+     "bin",
+     "另有預建 Windows 一鍵包，請確認從官方 Release 下載"
+    ]
+   ],
+   "q": "Provide a video topic or keyword, and MoneyPrinterTurbo will generate the script,",
+   "rm": true
+  },
+  {
+   "id": "gh-firecrawl-firecrawl",
+   "src": "github",
+   "n": "firecrawl/firecrawl",
+   "url": "https://github.com/firecrawl/firecrawl",
+   "lic": "AGPL-3.0",
+   "home": "https://firecrawl.dev",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "docker",
+    "cloud"
+   ],
+   "ov": "Firecrawl 是開源的網頁資料 API，能搜尋、抓取網頁並轉成乾淨的 Markdown 或結構化 JSON，專為 AI 代理與 RAG 使用。有託管服務，也能自架。",
+   "feat": [
+    "任意網址轉 Markdown / HTML / 截圖 / JSON",
+    "整站爬取與網址探索",
+    "可點擊、捲動、輸入的互動抓取",
+    "Python、Node.js 等多語言 SDK"
+   ],
+   "tasks": [
+    "自架後把一個文件網站整站轉成 Markdown",
+    "寫匯入腳本，把爬取結果存進向量資料庫做 RAG"
+   ],
+   "sw": [
+    "Node.js 或 Python SDK",
+    "Docker（自架）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install firecrawl-py",
+    "npm install firecrawl"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "使用託管服務需註冊並取得 API 金鑰"
+    ],
+    [
+     "bin",
+     "README 的 npx -y 指令會自動下載並執行遠端 npm 套件"
+    ]
+   ],
+   "q": "The API to search, scrape, and interact with the web at scale.",
+   "rm": true
+  },
+  {
+   "id": "gh-codecrafters-io-build-your-own-x",
+   "src": "github",
+   "n": "codecrafters-io/build-your-own-x",
+   "url": "https://github.com/codecrafters-io/build-your-own-x",
+   "lic": null,
+   "home": "https://codecrafters.io",
+   "cat": "學習資源",
+   "diff": "入門–進階",
+   "modes": [
+    "read"
+   ],
+   "ov": "彙整「從零打造」技術的教學目錄：自己寫資料庫、作業系統、編譯器、Git、Shell、3D 渲染器等。核心理念是透過親手重建來真正理解技術，本身不是可安裝的軟體。",
+   "feat": [
+    "依技術主題分類（資料庫、作業系統、網路、AI…）",
+    "每個主題有多種程式語言的教學",
+    "文字、影片、PDF 等多種形式"
+   ],
+   "tasks": [
+    "挑一個主題（例如自己寫 Git 或 Redis），照教學實作並寫筆記",
+    "用另一種語言重寫同一個專案，比較設計差異"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": "It's a great way to learn.",
+   "rm": true
+  },
+  {
+   "id": "gh-practical-tutorials-project-based-learning",
+   "src": "github",
+   "n": "practical-tutorials/project-based-learning",
+   "url": "https://github.com/practical-tutorials/project-based-learning",
+   "lic": "MIT",
+   "home": null,
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read"
+   ],
+   "ov": "依程式語言分類的專案導向教學清單，從 C/C++、Python、JavaScript 到 Go、Rust，每個教學都帶你從零做出一個完整應用。",
+   "feat": [
+    "20 多種語言分類",
+    "直譯器、作業系統、資料庫、編譯器等硬核題目",
+    "React、Vue、Django 等 Web 專案",
+    "機器學習、OpenCV、遊戲開發"
+   ],
+   "tasks": [
+    "從自己熟悉的語言挑 3 個專案依序完成",
+    "把完成的專案部署上線（可搭配本站的 Coolify）"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": "To get started, simply fork this repo.",
+   "rm": true
+  },
+  {
+   "id": "gh-donnemartin-system-design-primer",
+   "src": "github",
+   "n": "donnemartin/system-design-primer",
+   "url": "https://github.com/donnemartin/system-design-primer",
+   "lic": "NOASSERTION",
+   "home": null,
+   "cat": "學習資源",
+   "diff": "中階",
+   "modes": [
+    "read"
+   ],
+   "ov": "開源的系統設計學習指南，整理可擴展性、快取、資料庫、負載平衡等主題，並附系統設計與物件導向設計面試題的範例解答。",
+   "feat": [
+    "CAP、負載平衡、快取、非同步等核心概念",
+    "短網址、Twitter 時間軸、爬蟲等設計題解答",
+    "LRU 快取、停車場等 OOD 題目",
+    "附 Anki 記憶卡"
+   ],
+   "tasks": [
+    "選一題（如短網址服務）先自己畫架構，再對照解答",
+    "把其中的 LRU 快取實作出來並寫單元測試"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": "Learn how to design large-scale systems.",
+   "rm": true
+  },
+  {
+   "id": "gh-bregman-arie-devops-exercises",
+   "src": "github",
+   "n": "bregman-arie/devops-exercises",
+   "url": "https://github.com/bregman-arie/devops-exercises",
+   "lic": "NOASSERTION",
+   "home": null,
+   "cat": "學習資源",
+   "diff": "中階",
+   "modes": [
+    "read"
+   ],
+   "ov": "約 2600 題 DevOps / SRE 問答與練習，涵蓋 Linux、網路、Docker、Kubernetes、Terraform、Prometheus、AWS 等。主要用於面試準備與自我檢測。",
+   "feat": [
+    "網路基礎（TCP/IP、OSI、DNS、NAT）",
+    "作業系統與虛擬化",
+    "Kubernetes、Prometheus、Terraform 練習",
+    "Go、SQL、MongoDB 題目"
+   ],
+   "tasks": [
+    "每天挑 10 題，答不出來的就實際在 VM 裡操作一次",
+    "把 Kubernetes 章節的練習在 kind 叢集上做完"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": "This repo contains questions and exercises on various technical topics",
+   "rm": true
+  },
+  {
+   "id": "gh-microsoft-iot-for-beginners",
+   "src": "github",
+   "n": "microsoft/IoT-For-Beginners",
+   "url": "https://github.com/microsoft/IoT-For-Beginners",
+   "lic": "MIT",
+   "home": null,
+   "cat": "IoT 與硬體",
+   "diff": "入門",
+   "modes": [
+    "read",
+    "hw",
+    "cloud"
+   ],
+   "ov": "微軟提供的 12 週、24 堂 IoT 入門課程，以「農場到餐桌」為主軸，做植物澆水系統、車輛追蹤、水果品質檢測、語音計時器等專案。可用實體或虛擬硬體上課。",
+   "feat": [
+    "專案導向：植物監測、GPS 追蹤、影像辨識、語音",
+    "每課有課前 / 課後測驗與作業",
+    "實體硬體與虛擬硬體兩種路線",
+    "多語翻譯版本"
+   ],
+   "tasks": [
+    "用虛擬硬體先完成第一個「夜燈」專案",
+    "買一組感測器套件，把植物自動澆水系統做出來"
+   ],
+   "sw": [
+    "npm 與 Docsify（本機瀏覽課程）",
+    "Azure 帳號（部分課程）"
+   ],
+   "hw": [
+    "Raspberry Pi 或 Wio Terminal",
+    "Seeed Studio 感測器套件（也可用虛擬硬體）"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/microsoft/IoT-For-Beginners.git",
+    "npm i",
+    "docsify serve"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "部分課程需 Azure 帳號，請留意免費額度與帳單"
+    ]
+   ],
+   "q": "Each project is based around real-world hardware available to students and hobbyists.",
+   "rm": true
+  },
+  {
+   "id": "gh-public-apis-public-apis",
+   "src": "github",
+   "n": "public-apis/public-apis",
+   "url": "https://github.com/public-apis/public-apis",
+   "lic": "MIT",
+   "home": null,
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read"
+   ],
+   "ov": "社群維護的免費公開 API 清單，涵蓋動物、天氣、金融、地理等數十類，每筆標示驗證方式、HTTPS 與 CORS 支援，是做練習專案找資料來源的好地方。",
+   "feat": [
+    "數十個分類的免費 API",
+    "標示 Auth / HTTPS / CORS",
+    "目錄索引方便查找"
+   ],
+   "tasks": [
+    "挑一個不需金鑰、支援 CORS 的 API 做一個純前端小工具",
+    "用兩個 API 組合做一個資料視覺化頁面"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "部分 API 需註冊金鑰，條款與穩定性各不相同"
+    ]
+   ],
+   "q": "The Public APIs repository is manually curated by community members like you",
+   "rm": true
+  },
+  {
+   "id": "gh-godotengine-godot",
+   "src": "github",
+   "n": "godotengine/godot",
+   "url": "https://github.com/godotengine/godot",
+   "lic": "MIT",
+   "home": "https://godotengine.org",
+   "cat": "遊戲開發",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Godot 是免費開源的跨平台 2D / 3D 遊戲引擎，內建編輯器與完整工具，可一鍵匯出到桌面、行動、網頁與主機。MIT 授權，沒有授權費或分潤。",
+   "feat": [
+    "統一介面同時做 2D 與 3D",
+    "GDScript、C# 與 C++ 擴充",
+    "一鍵匯出多平台",
+    "MIT 授權，無版稅"
+   ],
+   "tasks": [
+    "照官方「第一個 2D 遊戲」教學做完並匯出 Web 版",
+    "用 GDScript 實作簡單存檔系統"
+   ],
+   "sw": [
+    "從原始碼建置：SCons、Python、C++ 編譯器"
+   ],
+   "hw": [
+    "支援 Vulkan 1.0 或 OpenGL 3.3 的顯示卡"
+   ],
+   "he": true,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Android",
+    "iOS",
+    "Web"
+   ],
+   "ins": [
+    "scons platform=linuxbsd"
+   ],
+   "insN": "一般使用者直接從官網下載編輯器即可；以上為原始碼建置指令",
+   "r": [
+    [
+     "bin",
+     "官網提供預編譯執行檔，請從官方網站或 GitHub Release 下載"
+    ]
+   ],
+   "q": "Godot is completely free and open source under the very permissive MIT license.",
+   "rm": true
+  },
+  {
+   "id": "gh-bevyengine-bevy",
+   "src": "github",
+   "n": "bevyengine/bevy",
+   "url": "https://github.com/bevyengine/bevy",
+   "lic": "Apache-2.0",
+   "home": "https://bevy.org",
+   "cat": "遊戲開發",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Bevy 是以 Rust 打造、採 ECS 架構的資料驅動遊戲引擎。仍在早期開發，約每三個月釋出一次可能有破壞性變更的版本，是學 Rust 與 ECS 的好題材。",
+   "feat": [
+    "ECS（Entity Component System）架構",
+    "完整 2D / 3D 功能",
+    "高度模組化，可替換元件",
+    "自動平行化系統排程"
+   ],
+   "tasks": [
+    "跑起 breakout 範例，再改成自己的打磚塊變體",
+    "閱讀 ECS 排程器原始碼，理解平行化策略"
+   ],
+   "sw": [
+    "Rust（最新穩定版）"
+   ],
+   "hw": [
+    "支援 Vulkan / Metal / DX12 的顯示卡",
+    "編譯建議 8 GB 以上 RAM"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/bevyengine/bevy",
+    "cd bevy",
+    "git checkout latest",
+    "cargo run --example breakout"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "beta",
+     "早期開發階段，版本間 API 有破壞性變更"
+    ]
+   ],
+   "q": "Bevy is a refreshingly simple data-driven game engine built in Rust.",
+   "rm": true
+  },
+  {
+   "id": "gh-raysan5-raylib",
+   "src": "github",
+   "n": "raysan5/raylib",
+   "url": "https://github.com/raysan5/raylib",
+   "lic": "Zlib",
+   "home": "http://www.raylib.com",
+   "cat": "遊戲開發",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "raylib 是簡單易用的 C 語言遊戲程式庫，沒有外部相依，支援大量平台與 70 多種語言綁定。很適合教學、原型與嵌入式裝置。",
+   "feat": [
+    "零外部相依",
+    "2D / 3D、骨骼動畫、PBR、著色器",
+    "WAV / OGG / MP3 音訊串流",
+    "200 多個範例"
+   ],
+   "tasks": [
+    "從範例庫挑 5 個範例改寫，最後組合成一個小遊戲",
+    "把遊戲用 Emscripten 編譯成網頁版"
+   ],
+   "sw": [
+    "C99 編譯器"
+   ],
+   "hw": [
+    "OpenGL 1.1 以上，或使用軟體渲染後端"
+   ],
+   "he": false,
+   "os": [
+    "Windows",
+    "Linux",
+    "macOS",
+    "Raspberry Pi",
+    "Android",
+    "HTML5"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "bin",
+     "Release 提供預編譯函式庫"
+    ]
+   ],
+   "q": "raylib is a simple and easy-to-use library to enjoy videogames programming.",
+   "rm": true
+  },
+  {
+   "id": "gh-kitao-pyxel",
+   "src": "github",
+   "n": "kitao/pyxel",
+   "url": "https://github.com/kitao/pyxel",
+   "lic": "MIT",
+   "home": null,
+   "cat": "遊戲開發",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "Pyxel 是給 Python 用的復古遊戲引擎，刻意限制 16 色與 4 聲道，內建圖像、地圖與音樂編輯器，非常適合程式初學者做第一個遊戲。",
+   "feat": [
+    "16 色調色盤、4 聲道音效",
+    "內建像素圖、地圖、音樂編輯器",
+    "可匯出成網頁版",
+    "MIT 授權"
+   ],
+   "tasks": [
+    "跑起範例後，做一個 60 秒的接物小遊戲",
+    "用內建音樂編輯器幫遊戲配樂"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install -U pyxel",
+    "pyxel copy_examples"
+   ],
+   "insN": "安裝指令整理自官方文件",
+   "r": [],
+   "q": "Let's start making retro games with Pyxel!",
+   "rm": true
+  },
+  {
+   "id": "gh-babylonjs-babylon-js",
+   "src": "github",
+   "n": "BabylonJS/Babylon.js",
+   "url": "https://github.com/BabylonJS/Babylon.js",
+   "lic": "Apache-2.0",
+   "home": "http://www.babylonjs.com",
+   "cat": "遊戲開發",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Babylon.js 是瀏覽器上的 3D 渲染與遊戲引擎，用 JavaScript / TypeScript 建立 3D 場景，有線上 Playground 可即時試驗。",
+   "feat": [
+    "線上 Playground 與大量範例",
+    "完整 TypeScript 型別",
+    "支援 glTF 匯入",
+    "支援 tree shaking 打包最佳化"
+   ],
+   "tasks": [
+    "在 Playground 做一個可以用鍵盤移動的 3D 角色",
+    "匯入一個 glTF 模型並加上燈光與陰影"
+   ],
+   "sw": [
+    "Node.js / npm",
+    "TypeScript（建議）"
+   ],
+   "hw": [
+    "支援 WebGL2 或 WebGPU 的瀏覽器與顯示卡"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "npm install babylonjs --save"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "The CDN should not be used in production environments.",
+   "rm": true
+  },
+  {
+   "id": "gh-kubernetes-kubernetes",
+   "src": "github",
+   "n": "kubernetes/kubernetes",
+   "url": "https://github.com/kubernetes/kubernetes",
+   "lic": "Apache-2.0",
+   "home": "https://kubernetes.io",
+   "cat": "DevOps 與雲原生",
+   "diff": "進階",
+   "modes": [
+    "build",
+    "local"
+   ],
+   "ov": "Kubernetes（K8s）是管理跨主機容器化應用的開源系統，負責部署、維護與擴展。源自 Google Borg 的經驗，由 CNCF 託管，是雲原生的核心。",
+   "feat": [
+    "跨多台主機排程容器",
+    "自動擴縮與自我修復",
+    "宣告式設定（YAML）",
+    "龐大的 CNCF 生態系"
+   ],
+   "tasks": [
+    "用 kind 或 minikube 在筆電起一個叢集，部署一個三層式應用",
+    "從原始碼編譯 kubectl，追蹤一個指令的執行路徑"
+   ],
+   "sw": [
+    "Go",
+    "Docker",
+    "練習叢集：kind / minikube / k3s"
+   ],
+   "hw": [
+    "每個節點至少 2 CPU / 2 GB RAM",
+    "從原始碼建置建議 8 GB 以上 RAM"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/kubernetes/kubernetes",
+    "cd kubernetes",
+    "make"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "root",
+     "建立正式叢集需 root 權限並調整系統核心參數"
+    ]
+   ],
+   "q": "Kubernetes, also known as K8s, is an open source system for managing containerized applications",
+   "rm": true
+  },
+  {
+   "id": "gh-traefik-traefik",
+   "src": "github",
+   "n": "traefik/traefik",
+   "url": "https://github.com/traefik/traefik",
+   "lic": "MIT",
+   "home": "https://traefik.io",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Traefik 是雲原生的反向代理與負載平衡器，能從 Docker、Kubernetes 等自動探索服務並動態產生路由，自動處理 Let's Encrypt 憑證。",
+   "feat": [
+    "自動探索服務，設定即時生效",
+    "Let's Encrypt 自動 HTTPS（含萬用字元）",
+    "WebSocket、HTTP/2、gRPC",
+    "儀表板與 Prometheus 指標"
+   ],
+   "tasks": [
+    "用 Docker Compose 讓兩個服務透過 Traefik 以不同子網域對外",
+    "設定自動 HTTPS 並觀察憑證續期"
+   ],
+   "sw": [
+    "Docker（選用）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run -d -p 8080:8080 -p 80:80 -v $PWD/traefik.toml:/etc/traefik/traefik.toml traefik"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "sock",
+     "使用 Docker provider 時常需掛載 docker.sock，建議唯讀並搭配 socket proxy"
+    ],
+    [
+     "bin",
+     "提供預編譯單一執行檔"
+    ]
+   ],
+   "q": "Pointing Traefik at your orchestrator should be the only configuration step you need.",
+   "rm": true
+  },
+  {
+   "id": "gh-netdata-netdata",
+   "src": "github",
+   "n": "netdata/netdata",
+   "url": "https://github.com/netdata/netdata",
+   "lic": "GPL-3.0",
+   "home": "https://www.netdata.cloud",
+   "cat": "DevOps 與雲原生",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "docker"
+   ],
+   "ov": "Netdata 是即時基礎架構監控平台，每秒收集指標、零設定自動偵測服務，並用邊緣端機器學習偵測異常。資料可完全留在自己的機器上。",
+   "feat": [
+    "每秒即時指標",
+    "零設定自動偵測",
+    "邊緣端 ML 異常偵測",
+    "Parent-Child 架構集中管理"
+   ],
+   "tasks": [
+    "在家用伺服器裝 Netdata，觀察跑壓力測試時的 CPU / 記憶體曲線",
+    "設定一個異常告警並送到 Discord"
+   ],
+   "sw": [],
+   "hw": [
+    "預設約 5% CPU、150 MiB RAM"
+   ],
+   "he": false,
+   "os": [
+    "Linux",
+    "macOS",
+    "FreeBSD",
+    "Windows"
+   ],
+   "ins": [
+    "wget -O /tmp/netdata-kickstart.sh https://get.netdata.cloud/kickstart.sh && sh /tmp/netdata-kickstart.sh"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [
+    [
+     "pipe",
+     "官方 kickstart 腳本從網路下載執行"
+    ],
+    [
+     "root",
+     "安裝需要 root 權限"
+    ],
+    [
+     "telem",
+     "預設送出匿名統計，可加 --disable-telemetry 關閉"
+    ]
+   ],
+   "q": "Netdata is an open-source, real-time infrastructure monitoring platform.",
+   "rm": true
+  },
+  {
+   "id": "gh-caddyserver-caddy",
+   "src": "github",
+   "n": "caddyserver/caddy",
+   "url": "https://github.com/caddyserver/caddy",
+   "lic": "Apache-2.0",
+   "home": "https://caddyserver.com",
+   "cat": "DevOps 與雲原生",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Caddy 是預設啟用 HTTPS 的網頁伺服器，會自動申請與續期憑證，支援 HTTP/1.1、HTTP/2、HTTP/3。單一 Go 執行檔，設定比 Nginx 簡單許多。",
+   "feat": [
+    "自動 HTTPS（Let's Encrypt / ZeroSSL）",
+    "Caddyfile 或 JSON 設定，API 即時調整",
+    "HTTP/3 支援",
+    "模組化外掛"
+   ],
+   "tasks": [
+    "用三行 Caddyfile 幫自己的服務加上 HTTPS 反向代理",
+    "用 xcaddy 編一個含外掛的自訂版本"
+   ],
+   "sw": [
+    "Go 1.26+（從原始碼建置）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone \"https://github.com/caddyserver/caddy.git\"",
+    "cd caddy/cmd/caddy/",
+    "go build"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "root",
+     "綁定 80 / 443 埠需 sudo setcap 或提升權限"
+    ],
+    [
+     "bin",
+     "建議從 GitHub Release 下載官方執行檔"
+    ]
+   ],
+   "q": "Caddy is an extensible server platform that uses TLS by default.",
+   "rm": true
+  },
+  {
+   "id": "gh-minio-minio",
+   "src": "github",
+   "n": "minio/minio",
+   "url": "https://github.com/minio/minio",
+   "lic": "AGPL-3.0",
+   "home": null,
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "build",
+    "docker"
+   ],
+   "ov": "MinIO 是相容 S3 API 的物件儲存。此儲存庫已標示不再維護，社群版也不再提供官方預編譯執行檔，只能自行從原始碼建置。可作為「專案停維護時怎麼辦」的案例研究。",
+   "feat": [
+    "相容 S3 API",
+    "網頁主控台",
+    "mc 命令列工具",
+    "Docker / Kubernetes 部署"
+   ],
+   "tasks": [
+    "自己從原始碼建置 Docker 映像，並用 mc 上傳檔案",
+    "比較 Garage、SeaweedFS 等仍在維護的替代方案"
+   ],
+   "sw": [
+    "Go 1.24+",
+    "Docker（選用）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "go install github.com/minio/minio@latest"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "weak",
+     "預設帳密 minioadmin:minioadmin，務必修改"
+    ],
+    [
+     "unmaint",
+     "README 聲明儲存庫已不再維護，不會再有安全更新"
+    ]
+   ],
+   "q": "THIS REPOSITORY IS NO LONGER MAINTAINED.",
+   "rm": true
+  },
+  {
+   "id": "gh-mitmproxy-mitmproxy",
+   "src": "github",
+   "n": "mitmproxy/mitmproxy",
+   "url": "https://github.com/mitmproxy/mitmproxy",
+   "lic": "MIT",
+   "home": "https://mitmproxy.org",
+   "cat": "資安與網路",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "mitmproxy 是可攔截 TLS 的互動式 HTTP 代理，提供主控台、命令列（mitmdump）與網頁（mitmweb）三種介面，用來觀察與修改 HTTP/1、HTTP/2、WebSocket 流量。",
+   "feat": [
+    "互動式主控台介面",
+    "mitmdump 命令列擷取",
+    "mitmweb 網頁介面",
+    "Python 腳本外掛"
+   ],
+   "tasks": [
+    "攔截自己手機 App 的 API 流量，分析它呼叫了哪些端點",
+    "寫一個 Python addon 自動改寫回應內容"
+   ],
+   "sw": [
+    "Python（pipx 安裝）或官方獨立執行檔"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [
+    "pipx install mitmproxy"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [
+    [
+     "intercept",
+     "需在裝置安裝 mitmproxy 根憑證，練習完務必移除"
+    ]
+   ],
+   "q": "mitmdump is the command-line version of mitmproxy.",
+   "rm": true
+  },
+  {
+   "id": "gh-gyulyvgc-sniffnet",
+   "src": "github",
+   "n": "GyulyVGC/sniffnet",
+   "url": "https://github.com/GyulyVGC/sniffnet",
+   "lic": "Apache-2.0",
+   "home": "https://sniffnet.app",
+   "cat": "資安與網路",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "Sniffnet 是免費開源的網路流量監控 App，即時顯示連線、流量圖表、遠端主機地理位置與網域，介面友善，是學網路封包的入門好工具。",
+   "feat": [
+    "即時連線列表與搜尋",
+    "流量圖表與統計",
+    "IP 地理位置、網域、ASN 查詢",
+    "匯入 / 匯出 PCAP"
+   ],
+   "tasks": [
+    "開著 Sniffnet 瀏覽網頁，找出背景偷偷連線的程式",
+    "匯出 PCAP 後用 Wireshark 進一步分析"
+   ],
+   "sw": [
+    "Linux / macOS：libpcap",
+    "Windows：Npcap"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [
+    "cargo install sniffnet --locked"
+   ],
+   "insN": "也可下載官方安裝檔（MSI / DMG / DEB / RPM）",
+   "r": [
+    [
+     "root",
+     "抓取封包通常需要系統管理員權限"
+    ],
+    [
+     "bin",
+     "提供預編譯安裝檔"
+    ]
+   ],
+   "q": "Application to comfortably monitor your Internet traffic.",
+   "rm": true
+  },
+  {
+   "id": "gh-x64dbg-x64dbg",
+   "src": "github",
+   "n": "x64dbg/x64dbg",
+   "url": "https://github.com/x64dbg/x64dbg",
+   "lic": "NOASSERTION",
+   "home": "http://x64dbg.com",
+   "cat": "資安與網路",
+   "diff": "進階",
+   "modes": [
+    "local"
+   ],
+   "ov": "x64dbg 是 Windows 上的開源使用者模式除錯器，專為逆向工程與惡意程式分析設計，有完整外掛系統。是學組合語言與逆向的經典工具。",
+   "feat": [
+    "CPU、記憶體、圖形化流程檢視",
+    "Zydis 反組譯與內建組譯器",
+    "Scylla 匯入表重建",
+    "外掛系統"
+   ],
+   "tasks": [
+    "在 VM 中用它解一個 crackme 練習題",
+    "觀察一個自己寫的 C 程式在組語層級的函式呼叫"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Windows"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "bin",
+     "以預編譯快照發布"
+    ],
+    [
+     "offensive",
+     "用於分析惡意程式，務必在隔離的虛擬機中操作；可能被防毒誤判"
+    ]
+   ],
+   "q": "An open-source binary debugger for Windows",
+   "rm": true
+  },
+  {
+   "id": "gh-swisskyrepo-payloadsallthethings",
+   "src": "github",
+   "n": "swisskyrepo/PayloadsAllTheThings",
+   "url": "https://github.com/swisskyrepo/PayloadsAllTheThings",
+   "lic": "MIT",
+   "home": null,
+   "cat": "資安與網路",
+   "diff": "中階",
+   "modes": [
+    "read"
+   ],
+   "ov": "網頁應用資安測試常用 payload 與繞過技巧的大全，依漏洞類型分章（SQLi、XSS、SSRF…），適合搭配 CTF 或自架靶機學習。",
+   "feat": [
+    "每種漏洞一章：原理說明與 payload",
+    "Burp Intruder 可用的字典檔",
+    "延伸書單與影片頻道"
+   ],
+   "tasks": [
+    "架一台 DVWA 或 Juice Shop 靶機，對照 SQLi 章節逐一驗證",
+    "把 XSS 章節的繞過技巧整理成自己的筆記"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "offensive",
+     "內容為攻擊用 payload，可能被防毒或 WAF 標記；僅限在取得授權的環境使用"
+    ]
+   ],
+   "q": "A list of useful payloads and bypasses for Web Application Security.",
+   "rm": true
+  },
+  {
+   "id": "gh-hwdsl2-setup-ipsec-vpn",
+   "src": "github",
+   "n": "hwdsl2/setup-ipsec-vpn",
+   "url": "https://github.com/hwdsl2/setup-ipsec-vpn",
+   "lic": "NOASSERTION",
+   "home": null,
+   "cat": "資安與網路",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "幾分鐘內在 Linux 伺服器自動架好自己的 IPsec VPN，支援 IPsec/L2TP、Cisco IPsec 與 IKEv2，安裝完會隨機產生登入資訊。",
+   "feat": [
+    "全自動安裝，免手動設定",
+    "IKEv2 + AES-GCM",
+    "自動產生 iOS / macOS / Android 設定檔",
+    "附使用者與憑證管理腳本"
+   ],
+   "tasks": [
+    "在便宜的 VPS 上架 VPN，用手機 IKEv2 連線",
+    "閱讀安裝腳本，學習 Libreswan 與 iptables 設定"
+   ],
+   "sw": [
+    "Libreswan",
+    "xl2tpd"
+   ],
+   "hw": [
+    "VPS 或雲端主機，約 512 MB RAM 即可"
+   ],
+   "he": true,
+   "os": [
+    "Ubuntu",
+    "Debian",
+    "CentOS Stream",
+    "Rocky / Alma Linux",
+    "Raspberry Pi OS",
+    "Alpine"
+   ],
+   "ins": [
+    "wget https://get.vpnsetup.net -O vpn.sh && sudo sh vpn.sh"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "從網路下載腳本後直接執行"
+    ],
+    [
+     "root",
+     "以 sudo 執行，會修改防火牆與系統網路參數"
+    ],
+    [
+     "expose",
+     "需開放 UDP 500 / 4500 埠"
+    ]
+   ],
+   "q": "Set up your own IPsec VPN server in just a few minutes",
+   "rm": true
+  },
+  {
+   "id": "gh-home-assistant-core",
+   "src": "github",
+   "n": "home-assistant/core",
+   "url": "https://github.com/home-assistant/core",
+   "lic": "Apache-2.0",
+   "home": "https://www.home-assistant.io",
+   "cat": "IoT 與硬體",
+   "diff": "中階",
+   "modes": [
+    "hw",
+    "docker"
+   ],
+   "ov": "Home Assistant 是以本地控制與隱私為優先的開源智慧家庭平台，能整合數千種裝置，適合裝在 Raspberry Pi 或小主機上。",
+   "feat": [
+    "數千種裝置整合（燈具、感測器、家電）",
+    "自動化規則與場景",
+    "本地運作，不依賴雲端",
+    "儀表板自訂"
+   ],
+   "tasks": [
+    "用 Docker 跑起 Home Assistant，接一顆智慧燈泡做定時開關",
+    "寫一個「離家自動關燈」的自動化"
+   ],
+   "sw": [
+    "Docker，或官方 Home Assistant OS"
+   ],
+   "hw": [
+    "Raspberry Pi 4/5（2 GB RAM 以上）或迷你主機",
+    "32 GB 以上儲存空間",
+    "選配：Zigbee / Z-Wave USB 接收器"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d --name homeassistant --privileged --restart=unless-stopped -e TZ=Asia/Taipei -v /PATH_TO_YOUR_CONFIG:/config -v /run/dbus:/run/dbus:ro --network=host ghcr.io/home-assistant/home-assistant:stable"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [
+    [
+     "priv",
+     "官方 Docker 指令使用 --privileged 與 host 網路，以便存取 USB 與區網裝置"
+    ]
+   ],
+   "q": "Open source home automation that puts local control and privacy first.",
+   "rm": true
+  },
+  {
+   "id": "gh-pi-hole-pi-hole",
+   "src": "github",
+   "n": "pi-hole/pi-hole",
+   "url": "https://github.com/pi-hole/pi-hole",
+   "lic": "NOASSERTION",
+   "home": "https://pi-hole.net",
+   "cat": "IoT 與硬體",
+   "diff": "入門",
+   "modes": [
+    "hw",
+    "local",
+    "docker"
+   ],
+   "ov": "Pi-hole 是 DNS 黑洞，在整個網路層級攔截廣告與追蹤器，手機 App、智慧電視也有效，不用在每台裝置裝軟體。經典的樹莓派入門專案。",
+   "feat": [
+    "全網路廣告攔截",
+    "DNS 快取加速",
+    "網頁儀表板與統計",
+    "可兼任 DHCP 伺服器"
+   ],
+   "tasks": [
+    "在樹莓派上裝 Pi-hole，把路由器 DNS 指過去",
+    "看一週的儀表板，找出家裡最常連線的追蹤網域"
+   ],
+   "sw": [
+    "bash",
+    "git",
+    "或 Docker"
+   ],
+   "hw": [
+    "Raspberry Pi 等低功耗主機即可",
+    "約 2 GB 硬碟、512 MB RAM"
+   ],
+   "he": true,
+   "os": [
+    "Linux"
+   ],
+   "ins": [
+    "curl -sSL https://install.pi-hole.net | bash"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "官方一行安裝為 curl | bash，README 也提供先下載再執行的替代方式"
+    ],
+    [
+     "root",
+     "需要 root 權限"
+    ]
+   ],
+   "q": "Network-wide ad blocking via your own Linux hardware",
+   "rm": true
+  },
+  {
+   "id": "gh-magicmirrororg-magicmirror",
+   "src": "github",
+   "n": "MagicMirrorOrg/MagicMirror",
+   "url": "https://github.com/MagicMirrorOrg/MagicMirror",
+   "lic": "MIT",
+   "home": "https://magicmirror.builders",
+   "cat": "IoT 與硬體",
+   "diff": "中階",
+   "modes": [
+    "hw",
+    "local"
+   ],
+   "ov": "MagicMirror² 是模組化的智慧鏡子平台，把螢幕藏在單面鏡後，顯示時間、天氣、行事曆與新聞。以 Electron 包裝，有大量社群模組。",
+   "feat": [
+    "模組化外掛系統",
+    "Electron 包裝，免架網頁伺服器",
+    "大量社群模組",
+    "MIT 授權"
+   ],
+   "tasks": [
+    "先在電腦跑起來，換成自己的城市天氣與 Google 行事曆",
+    "自己寫一個顯示公車到站時間的模組"
+   ],
+   "sw": [
+    "Node.js（LTS）",
+    "Electron"
+   ],
+   "hw": [
+    "Raspberry Pi 3 以上",
+    "螢幕",
+    "單面透視鏡與木框"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/MagicMirrorOrg/MagicMirror",
+    "cd MagicMirror/",
+    "npm run install-mm",
+    "npm run start"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [],
+   "q": "So no more web server or browser installs necessary!",
+   "rm": true
+  },
+  {
+   "id": "gh-pallets-flask",
+   "src": "github",
+   "n": "pallets/flask",
+   "url": "https://github.com/pallets/flask",
+   "lic": "BSD-3-Clause",
+   "home": "https://flask.palletsprojects.com",
+   "cat": "Web 與 App 框架",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "Flask 是輕量的 Python WSGI 網頁框架，入門簡單又能擴展到大型應用。不強制專案結構與相依套件，搭配豐富的擴充套件使用。",
+   "feat": [
+    "簡潔的路由裝飾器",
+    "Jinja 樣板",
+    "不強制專案結構",
+    "豐富的擴充生態"
+   ],
+   "tasks": [
+    "做一個有登入與資料庫的留言板，部署到 VPS",
+    "把它改寫成 REST API 並寫 pytest 測試"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install -U Flask",
+    "flask --app hello run"
+   ],
+   "insN": "安裝指令整理自官方文件",
+   "r": [],
+   "q": "Flask offers suggestions, but doesn't enforce any dependencies or project layout.",
+   "rm": true
+  },
+  {
+   "id": "gh-honojs-hono",
+   "src": "github",
+   "n": "honojs/hono",
+   "url": "https://github.com/honojs/hono",
+   "lic": "MIT",
+   "home": "https://hono.dev",
+   "cat": "Web 與 App 框架",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "cloud"
+   ],
+   "ov": "Hono 是建立在 Web 標準上的小巧高速網頁框架，零相依，同一份程式碼可跑在 Cloudflare Workers、Deno、Bun、Node.js、AWS Lambda 等環境。",
+   "feat": [
+    "極快的 RegExpRouter",
+    "hono/tiny 小於 12 kB",
+    "多執行環境通用",
+    "一流的 TypeScript 支援"
+   ],
+   "tasks": [
+    "做一個短網址 API，部署到 Cloudflare Workers",
+    "同一份程式在 Bun 與 Node.js 各跑一次比較效能"
+   ],
+   "sw": [
+    "Node.js / Bun / Deno 任一"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "npm create hono@latest"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Fast, but not only fast.",
+   "rm": true
+  },
+  {
+   "id": "gh-flutter-flutter",
+   "src": "github",
+   "n": "flutter/flutter",
+   "url": "https://github.com/flutter/flutter",
+   "lic": "BSD-3-Clause",
+   "home": "https://flutter.dev",
+   "cat": "Web 與 App 框架",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Flutter 是 Google 的開源 UI 框架，用一份 Dart 程式碼打造行動、網頁與桌面應用，支援保留狀態的熱重載，開發體驗流暢。",
+   "feat": [
+    "單一程式碼跨六個平台",
+    "Material 與 Cupertino 元件",
+    "Impeller 硬體加速渲染",
+    "熱重載"
+   ],
+   "tasks": [
+    "做一個記帳 App，同時跑在 Android 與網頁",
+    "串接本站任一自架服務的 API 做行動端"
+   ],
+   "sw": [
+    "Flutter SDK",
+    "Android Studio 或 Xcode（行動版）"
+   ],
+   "hw": [
+    "開發機建議 8 GB RAM 以上；iOS 開發需要 Mac"
+   ],
+   "he": true,
+   "os": [
+    "iOS",
+    "Android",
+    "Web",
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "首次執行會從 Google 伺服器下載 Dart SDK 等資源"
+    ]
+   ],
+   "q": "Flutter is a fully open-source project, and we welcome contributions.",
+   "rm": true
+  },
+  {
+   "id": "gl-gitlab-org-gitlab",
+   "src": "gitlab",
+   "n": "gitlab-org/gitlab",
+   "url": "https://gitlab.com/gitlab-org/gitlab",
+   "lic": "MIT",
+   "home": null,
+   "cat": "開發工具",
+   "diff": "進階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "GitLab 是開源的 DevSecOps 平台，把原始碼管理、CI/CD、安全掃描與專案管理整合在同一套系統。可自架，也是 GitLab.com 本身運行的程式碼。",
+   "feat": [
+    "Git 託管與合併請求",
+    "內建 CI/CD 與容器註冊表",
+    "安全掃描與相依性檢查",
+    "議題、看板、里程碑"
+   ],
+   "tasks": [
+    "用 Docker 架一台 GitLab，搭配 GitLab Runner 跑第一條 pipeline",
+    "設定 SAST 掃描並閱讀報告"
+   ],
+   "sw": [
+    "Docker，或官方 Linux 套件"
+   ],
+   "hw": [
+    "建議 4 核心 / 8 GB RAM 以上（小型團隊）"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run --detach --hostname gitlab.example.com --publish 443:443 --publish 80:80 --publish 22:22 --name gitlab --volume $GITLAB_HOME/config:/etc/gitlab --volume $GITLAB_HOME/logs:/var/log/gitlab --volume $GITLAB_HOME/data:/var/opt/gitlab --shm-size 256m gitlab/gitlab-ee:latest"
+   ],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [
+    [
+     "telem",
+     "預設會傳送使用統計（Service Ping），可在管理後台關閉"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-inkscape-inkscape",
+   "src": "gitlab",
+   "n": "inkscape/inkscape",
+   "url": "https://gitlab.com/inkscape/inkscape",
+   "lic": "GPL-2.0-or-later",
+   "home": null,
+   "cat": "桌面與行動應用",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Inkscape 是專業的開源向量繪圖軟體，以 SVG 為原生格式，可替代 Illustrator。從原始碼編譯是學大型 C++ / GTK 桌面專案的好練習。",
+   "feat": [
+    "SVG 原生編輯",
+    "節點、路徑、文字與濾鏡工具",
+    "可匯出 PNG、PDF、EPS",
+    "Python 擴充功能"
+   ],
+   "tasks": [
+    "從原始碼編譯 Inkscape 並修一個標示為 easy 的 issue",
+    "用 Python 寫一個簡單的擴充功能"
+   ],
+   "sw": [
+    "CMake",
+    "C++ 編譯器",
+    "GTK 4 / gtkmm"
+   ],
+   "hw": [
+    "編譯建議 8 GB RAM 以上"
+   ],
+   "he": true,
+   "os": [
+    "Linux",
+    "Windows",
+    "macOS"
+   ],
+   "ins": [
+    "git clone --recurse-submodules https://gitlab.com/inkscape/inkscape.git",
+    "mkdir inkscape/build && cd inkscape/build",
+    "cmake ..",
+    "make -j$(nproc)"
+   ],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-fdroid-fdroidclient",
+   "src": "gitlab",
+   "n": "fdroid/fdroidclient",
+   "url": "https://gitlab.com/fdroid/fdroidclient",
+   "lic": "GPL-3.0",
+   "home": null,
+   "cat": "桌面與行動應用",
+   "diff": "中階",
+   "modes": [
+    "build"
+   ],
+   "ov": "F-Droid 的 Android 用戶端，用來瀏覽、安裝與更新自由開源的 Android App。是研究 Android 專案架構與套件庫機制的好範例。",
+   "feat": [
+    "瀏覽與安裝開源 App",
+    "可加入第三方套件庫",
+    "背景自動更新",
+    "不需要 Google 帳號"
+   ],
+   "tasks": [
+    "用 Android Studio 編譯並安裝到模擬器",
+    "追蹤它如何驗證套件庫簽章"
+   ],
+   "sw": [
+    "JDK 17",
+    "Android SDK",
+    "Gradle（專案內附 wrapper）"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [
+    "Android"
+   ],
+   "ins": [
+    "git clone https://gitlab.com/fdroid/fdroidclient.git",
+    "cd fdroidclient",
+    "./gradlew assembleFullDebug"
+   ],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-gitlab-org-gitlab-runner",
+   "src": "gitlab",
+   "n": "gitlab-org/gitlab-runner",
+   "url": "https://gitlab.com/gitlab-org/gitlab-runner",
+   "lic": "MIT",
+   "home": null,
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "GitLab Runner 是 GitLab CI/CD 的執行代理，負責接收 pipeline 工作並在 Shell、Docker、Kubernetes 等環境執行。",
+   "feat": [
+    "Shell / Docker / Kubernetes 等執行器",
+    "可平行執行多個工作",
+    "快取與產出物上傳",
+    "自動擴展"
+   ],
+   "tasks": [
+    "為自架的 GitLab 註冊一個 Docker executor runner",
+    "比較 Shell 與 Docker executor 的隔離差異"
+   ],
+   "sw": [
+    "Docker（使用 Docker executor 時）"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [
+    "Linux",
+    "Windows",
+    "macOS",
+    "FreeBSD"
+   ],
+   "ins": [],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [
+    [
+     "exec",
+     "會執行 pipeline 中的任意程式碼，勿在存有敏感資料的主機上跑不受信任的專案"
+    ],
+    [
+     "priv",
+     "Docker-in-Docker 需要 privileged 模式"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-veloren-veloren",
+   "src": "gitlab",
+   "n": "veloren/veloren",
+   "url": "https://gitlab.com/veloren/veloren",
+   "lic": "GPL-3.0",
+   "home": null,
+   "cat": "遊戲開發",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Veloren 是用 Rust 寫的多人線上體素角色扮演遊戲，靈感來自 Cube World、薩爾達傳說：曠野之息與 Minecraft。完全開源，是研究大型 Rust 遊戲專案的好教材。",
+   "feat": [
+    "多人線上體素 RPG",
+    "程序化生成世界",
+    "Rust 撰寫",
+    "GPL 授權"
+   ],
+   "tasks": [
+    "編譯並自架一台私人伺服器和朋友連線",
+    "讀它的世界生成程式碼，理解程序化地形"
+   ],
+   "sw": [
+    "Rust（nightly 工具鏈）",
+    "Git LFS"
+   ],
+   "hw": [
+    "支援 Vulkan / Metal / DX12 的顯示卡",
+    "建議 8 GB 以上 RAM"
+   ],
+   "he": true,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [
+    "git lfs install",
+    "git clone https://gitlab.com/veloren/veloren.git",
+    "cd veloren",
+    "cargo run --release --bin veloren-voxygen"
+   ],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [],
+   "q": "Veloren is a multiplayer voxel RPG written in Rust.",
+   "rm": false
+  },
+  {
+   "id": "gl-wireshark-wireshark",
+   "src": "gitlab",
+   "n": "wireshark/wireshark",
+   "url": "https://gitlab.com/wireshark/wireshark",
+   "lic": "GPL-2.0",
+   "home": null,
+   "cat": "資安與網路",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "Wireshark 是最知名的網路封包分析工具，能擷取並逐層解析上千種通訊協定。學網路、除錯或資安分析的必備工具。",
+   "feat": [
+    "上千種協定解析",
+    "強大的顯示過濾器",
+    "跟隨 TCP / HTTP 串流",
+    "命令列版 tshark"
+   ],
+   "tasks": [
+    "擷取一次 HTTPS 連線，對照 TLS 握手每個步驟",
+    "寫一個 Lua 解析器解析自訂協定"
+   ],
+   "sw": [
+    "Linux / macOS：libpcap",
+    "Windows：Npcap",
+    "Qt 6（圖形介面）"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [
+    [
+     "root",
+     "擷取封包需要管理員權限或加入 wireshark 群組"
+    ],
+    [
+     "bin",
+     "一般使用者會安裝官方預編譯安裝檔"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-shinobi-systems-shinobi",
+   "src": "gitlab",
+   "n": "Shinobi-Systems/Shinobi",
+   "url": "https://gitlab.com/Shinobi-Systems/Shinobi",
+   "lic": "NOASSERTION",
+   "home": null,
+   "cat": "IoT 與硬體",
+   "diff": "中階",
+   "modes": [
+    "hw",
+    "local"
+   ],
+   "ov": "Shinobi 是開源的網路錄影機（NVR）軟體，可接多台 IP 攝影機錄影、移動偵測與遠端觀看，適合自架家用監控系統。",
+   "feat": [
+    "多路 IP 攝影機錄影",
+    "移動偵測與事件通知",
+    "網頁介面即時觀看",
+    "外掛式物件偵測"
+   ],
+   "tasks": [
+    "接一台 RTSP 攝影機（或用手機 App 模擬）設定錄影",
+    "啟用移動偵測並送通知"
+   ],
+   "sw": [
+    "Node.js",
+    "FFmpeg",
+    "MariaDB / MySQL"
+   ],
+   "hw": [
+    "IP 攝影機（RTSP）",
+    "多路錄影需較高 CPU 與大量硬碟"
+   ],
+   "he": true,
+   "os": [
+    "Linux"
+   ],
+   "ins": [],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件；請依官方安裝說明操作",
+   "r": [
+    [
+     "root",
+     "官方安裝腳本需 root 權限"
+    ],
+    [
+     "lic",
+     "社群版與 Pro 版授權條款不同，商業使用前請確認"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "gl-crafty-controller-crafty-4",
+   "src": "gitlab",
+   "n": "crafty-controller/crafty-4",
+   "url": "https://gitlab.com/crafty-controller/crafty-4",
+   "lic": "GPL-3.0",
+   "home": null,
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Crafty Controller 是 Minecraft 伺服器管理面板，用網頁介面建立、啟停、備份多台 Minecraft 伺服器並管理玩家權限。",
+   "feat": [
+    "網頁面板管理多台伺服器",
+    "排程與自動備份",
+    "使用者與權限管理",
+    "即時主控台"
+   ],
+   "tasks": [
+    "用 Docker 架起面板，開一台 Minecraft 伺服器和朋友連線",
+    "設定每日自動備份並測試還原"
+   ],
+   "sw": [
+    "Docker，或 Python 3.9+",
+    "Java（執行 Minecraft 伺服器）"
+   ],
+   "hw": [
+    "每台 Minecraft 伺服器建議 2–4 GB RAM"
+   ],
+   "he": true,
+   "os": [
+    "Linux",
+    "Windows",
+    "macOS"
+   ],
+   "ins": [],
+   "insN": "GitLab 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "cb-forgejo-forgejo",
+   "src": "codeberg",
+   "n": "forgejo/forgejo",
+   "url": "https://codeberg.org/forgejo/forgejo",
+   "lic": "GPL-3.0-or-later",
+   "home": "https://forgejo.org",
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Forgejo 是輕量、可自架的 Git 平台，名稱來自世界語的「鍛造廠」，由獨立社群治理。Codeberg 本身就跑在 Forgejo 上，從 Gitea 軟分叉而來。",
+   "feat": [
+    "議題、合併請求、Wiki、看板",
+    "套件註冊（Docker、npm…）",
+    "Forgejo Actions CI",
+    "LDAP / OAuth 登入"
+   ],
+   "tasks": [
+    "用 Docker 起一台 Forgejo，設定從 GitHub 鏡像一個儲存庫",
+    "比較它與 Gitea 的治理模式與授權差異"
+   ],
+   "sw": [
+    "Git",
+    "資料庫：SQLite / PostgreSQL / MySQL"
+   ],
+   "hw": [
+    "低資源，Raspberry Pi 可執行"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d --name forgejo -p 3000:3000 -p 222:22 -v ./forgejo:/data codeberg.org/forgejo/forgejo:<版本號>"
+   ],
+   "insN": "README 未列安裝指令，以上整理自官方文件",
+   "r": [],
+   "q": "Tired of big platforms playing monopoly?",
+   "rm": true
+  },
+  {
+   "id": "cb-ziglang-zig",
+   "src": "codeberg",
+   "n": "ziglang/zig",
+   "url": "https://codeberg.org/ziglang/zig",
+   "lic": "MIT",
+   "home": "https://ziglang.org",
+   "cat": "開發工具",
+   "diff": "進階",
+   "modes": [
+    "build",
+    "local"
+   ],
+   "ov": "Zig 是通用程式語言與工具鏈，追求強健、最佳化且可重用的軟體。2025 年從 GitHub 遷移到 Codeberg，也能當 C/C++ 交叉編譯器使用。",
+   "feat": [
+    "內建 zig build 建置系統",
+    "可直接編譯 C/C++ 並交叉編譯",
+    "translate-c 把 C 轉成 Zig",
+    "可用 bootstrap.c 自舉"
+   ],
+   "tasks": [
+    "用 Zig 重寫一個自己寫過的 C 小工具",
+    "用 zig cc 把 C 專案交叉編譯到 ARM"
+   ],
+   "sw": [
+    "CMake ≥ 3.15",
+    "LLVM / Clang / LLD 23.x 開發函式庫",
+    "C/C++ 工具鏈"
+   ],
+   "hw": [
+    "從原始碼建置需大量 RAM，建議 16 GB 以上"
+   ],
+   "he": true,
+   "os": [
+    "Windows",
+    "Linux",
+    "macOS",
+    "FreeBSD",
+    "NetBSD",
+    "OpenBSD"
+   ],
+   "ins": [
+    "mkdir build",
+    "cd build",
+    "cmake ..",
+    "make install"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "policy",
+     "專案禁止用 LLM 產生的 issue / PR，貢獻前請先閱讀規範"
+    ]
+   ],
+   "q": null,
+   "rm": true
+  },
+  {
+   "id": "cb-superseriousbusiness-gotosocial",
+   "src": "codeberg",
+   "n": "superseriousbusiness/gotosocial",
+   "url": "https://codeberg.org/superseriousbusiness/gotosocial",
+   "lic": "AGPL-3.0",
+   "home": "https://docs.gotosocial.org",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "GoToSocial 是用 Go 寫的輕量 ActivityPub 社群伺服器，可和 Mastodon 等 Fediverse 伺服器互通。沒有推薦演算法，資源需求低，目前仍是 BETA。",
+   "feat": [
+    "ActivityPub 聯邦互通",
+    "相容 Mastodon API 與第三方 App",
+    "細緻的貼文可見性設定",
+    "資源需求低，單板電腦可跑"
+   ],
+   "tasks": [
+    "用自己的網域架一台單人 Fediverse 伺服器",
+    "用 Mastodon 相容 App 登入並追蹤其他站點的帳號"
+   ],
+   "sw": [
+    "SQLite 或 PostgreSQL",
+    "Docker（選用）",
+    "自己的網域與 HTTPS"
+   ],
+   "hw": [
+    "RAM 約 250–350 MiB",
+    "單板電腦即可"
+   ],
+   "he": false,
+   "os": [
+    "Linux x86-64 / ARM64",
+    "FreeBSD",
+    "NetBSD"
+   ],
+   "ins": [
+    "docker pull docker.io/superseriousbusiness/gotosocial:latest"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "beta",
+     "仍為 BETA 軟體，功能未完整"
+    ],
+    [
+     "expose",
+     "公開聯邦伺服器需自行負責維運與安全"
+    ]
+   ],
+   "q": "GoToSocial is still BETA SOFTWARE",
+   "rm": true
+  },
+  {
+   "id": "cb-freeyourgadget-gadgetbridge",
+   "src": "codeberg",
+   "n": "Freeyourgadget/Gadgetbridge",
+   "url": "https://codeberg.org/Freeyourgadget/Gadgetbridge",
+   "lic": "AGPL-3.0",
+   "home": "https://gadgetbridge.org",
+   "cat": "桌面與行動應用",
+   "diff": "中階",
+   "modes": [
+    "hw",
+    "local"
+   ],
+   "ov": "Gadgetbridge 是取代穿戴裝置廠商封閉 App 的 Android 應用，不用註冊帳號、資料不上傳廠商伺服器，支援大量智慧手錶與手環。",
+   "feat": [
+    "支援 Mi Band、Amazfit、Garmin、Pebble 等",
+    "資料留在本機",
+    "可從 F-Droid 安裝",
+    "記錄檔方便除錯"
+   ],
+   "tasks": [
+    "把手上的手環改用 Gadgetbridge 連線並匯出睡眠資料",
+    "研究它如何逆向解析藍牙協定"
+   ],
+   "sw": [],
+   "hw": [
+    "Android 手機",
+    "支援的穿戴裝置（見官網清單）"
+   ],
+   "he": false,
+   "os": [
+    "Android"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "部分裝置配對需先從原廠 App 取得驗證金鑰"
+    ]
+   ],
+   "q": "A free and cloudless replacement for your gadget vendors' closed source Android applications.",
+   "rm": true
+  },
+  {
+   "id": "cb-dnkl-foot",
+   "src": "codeberg",
+   "n": "dnkl/foot",
+   "url": "https://codeberg.org/dnkl/foot",
+   "lic": "MIT",
+   "home": null,
+   "cat": "桌面與行動應用",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "build"
+   ],
+   "ov": "foot 是快速、輕量、極簡的 Wayland 原生終端機模擬器，有伺服器模式可讓多個視窗共用字型快取，支援 Sixel 圖片與 True Color。",
+   "feat": [
+    "Wayland 原生",
+    "伺服器模式共享快取",
+    "捲動搜尋與鍵盤開啟 URL",
+    "Sixel、True Color、彩色 Emoji"
+   ],
+   "tasks": [
+    "在 Wayland 桌面編譯安裝並自訂設定檔",
+    "閱讀它的渲染迴圈，學習高效文字繪製"
+   ],
+   "sw": [
+    "Wayland 合成器",
+    "fontconfig",
+    "freetype",
+    "meson / ninja（建置）"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [
+    "Linux",
+    "FreeBSD"
+   ],
+   "ins": [
+    "meson setup build",
+    "ninja -C build"
+   ],
+   "insN": "建置指令整理自官方文件",
+   "r": [],
+   "q": "The fast, lightweight and minimalistic Wayland terminal emulator.",
+   "rm": true
+  },
+  {
+   "id": "cb-mergiraf-mergiraf",
+   "src": "codeberg",
+   "n": "mergiraf/mergiraf",
+   "url": "https://codeberg.org/mergiraf/mergiraf",
+   "lic": "GPL-3.0",
+   "home": "https://mergiraf.org/",
+   "cat": "開發工具",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Mergiraf 是語法感知的 git 合併驅動程式，依照程式碼的語法樹而不是逐行文字來合併，能自動解決許多傳統工具會判為衝突的情況。",
+   "feat": [
+    "依語法結構合併",
+    "支援多種語言與檔案格式（tree-sitter）",
+    "可設為 git 合併驅動",
+    "官方文件與 Zulip 社群"
+   ],
+   "tasks": [
+    "故意製造兩個分支的衝突，比較 git 原生與 Mergiraf 的結果",
+    "研究它如何用 tree-sitter 對齊語法樹"
+   ],
+   "sw": [
+    "git",
+    "Rust / cargo（從原始碼安裝）"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [],
+   "ins": [
+    "cargo install --locked mergiraf"
+   ],
+   "insN": "安裝指令整理自官方文件",
+   "r": [],
+   "q": "We welcome contributions and new team members, see CONTRIBUTING.md.",
+   "rm": true
+  },
+  {
+   "id": "cb-librewolf-source",
+   "src": "codeberg",
+   "n": "librewolf/source",
+   "url": "https://codeberg.org/librewolf/source",
+   "lic": "MPL-2.0",
+   "home": "https://librewolf.net",
+   "cat": "桌面與行動應用",
+   "diff": "進階",
+   "modes": [
+    "build"
+   ],
+   "ov": "LibreWolf 是以隱私與安全為重點的 Firefox 分支，移除遙測並預設強化設定。這裡是建置原始碼與修補檔的鏡像，主站在 librewolf.dev。",
+   "feat": [
+    "移除遙測",
+    "預設強化隱私設定",
+    "內建 uBlock Origin",
+    "Firefox 修補檔集合"
+   ],
+   "tasks": [
+    "閱讀修補檔，整理它改了哪些 Firefox 預設值",
+    "嘗試自行編譯（需要強大機器）"
+   ],
+   "sw": [
+    "Firefox 建置工具鏈（Python、Rust、Clang）"
+   ],
+   "hw": [
+    "編譯 Firefox 建議 16 GB 以上 RAM 與數十 GB 硬碟"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "mirror",
+     "此為鏡像，議題與主要開發在 librewolf.dev"
+    ]
+   ],
+   "q": null,
+   "rm": true
+  },
+  {
+   "id": "gt-xorm-xorm",
+   "src": "gitea",
+   "n": "xorm/xorm",
+   "url": "https://gitea.com/xorm/xorm",
+   "lic": "BSD-3-Clause",
+   "home": null,
+   "cat": "開發工具",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "xorm 是 Go 語言的 ORM 函式庫，支援結構體映射、鏈式查詢、交易與原生 SQL，可接 MySQL、PostgreSQL、SQLite、MSSQL、TiDB 等資料庫。Gitea 本身就用它。",
+   "feat": [
+    "結構體與資料表映射",
+    "鏈式查詢與交易",
+    "Schema 同步與快取",
+    "讀寫分離"
+   ],
+   "tasks": [
+    "用 xorm + SQLite 寫一個命令列待辦清單",
+    "對照 Gitea 原始碼，看大型專案怎麼用 ORM"
+   ],
+   "sw": [
+    "Go",
+    "對應資料庫的驅動"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "go get xorm.io/xorm"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "breaking",
+     "v1.0 起有破壞性變更，舊教學可能不適用"
+    ]
+   ],
+   "q": "Xorm is a simple and powerful ORM for Go.",
+   "rm": true
+  },
+  {
+   "id": "gt-gitea-tea",
+   "src": "gitea",
+   "n": "gitea/tea",
+   "url": "https://gitea.com/gitea/tea",
+   "lic": "MIT",
+   "home": null,
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "tea 是 Gitea 官方命令列工具，在終端機管理議題、合併請求、版本發布與 Actions 密鑰，也能自動依當前資料夾判斷要操作的儲存庫。",
+   "feat": [
+    "議題、PR、標籤、里程碑管理",
+    "多伺服器登入",
+    "tea pr checkout 切換 PR 分支",
+    "Shell 自動補全"
+   ],
+   "tasks": [
+    "搭配自架的 Gitea / Forgejo，用 tea 從終端機開 PR",
+    "寫一個腳本批次關閉過期議題"
+   ],
+   "sw": [
+    "Go 1.26+ 與 GNU Make（從原始碼建置時）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "macOS",
+    "Linux",
+    "Windows",
+    "OpenBSD"
+   ],
+   "ins": [
+    "brew install tea"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "token",
+     "API 權杖存在設定檔中，請保護好 $XDG_CONFIG_HOME/tea"
+    ]
+   ],
+   "q": "tea is a productivity helper for Gitea.",
+   "rm": true
+  },
+  {
+   "id": "gt-gitea-runner",
+   "src": "gitea",
+   "n": "gitea/runner",
+   "url": "https://gitea.com/gitea/runner",
+   "lic": "MIT",
+   "home": null,
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "Gitea Actions 的官方執行器，向 Gitea 領取並執行工作流程，可跑在 Docker、Kubernetes 或主機上，相容大部分 GitHub Actions 語法。",
+   "feat": [
+    "docker / kubernetes / host 三種執行模式",
+    "內建 checkout 等動作",
+    "S3 相容快取",
+    "OpenTelemetry 追蹤"
+   ],
+   "tasks": [
+    "為自架 Gitea 註冊 runner，跑一條建置 + 測試的 workflow",
+    "比較 host 與 docker 模式的隔離差異"
+   ],
+   "sw": [
+    "Git 2.34.1+",
+    "Docker 或 Podman",
+    "啟用 Actions 的 Gitea"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Linux",
+    "Windows",
+    "macOS"
+   ],
+   "ins": [
+    "make build",
+    "./gitea-runner register",
+    "./gitea-runner daemon"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "exec",
+     "會執行 workflow 內的任意程式碼"
+    ],
+    [
+     "sock",
+     "掛載 Docker socket 等同授予主機 root 等級權限"
+    ],
+    [
+     "priv",
+     "建議的 DinD 映像需要 --privileged"
+    ]
+   ],
+   "q": "The recommended Docker-in-Docker image runs its own Docker daemon for jobs.",
+   "rm": true
+  },
+  {
+   "id": "gt-duartesantos-opengym",
+   "src": "gitea",
+   "n": "DuarteSantos/openGym",
+   "url": "https://gitea.com/DuarteSantos/openGym",
+   "lic": "AGPL-3.0",
+   "home": null,
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "openGym 是可自架的健身與體重追蹤工具，規劃每週課表、引導式訓練、記錄每一組並分析進度。資料留在自己的伺服器，無帳號、無訂閱、無遙測。",
+   "feat": [
+    "1300 多個動作資料庫",
+    "休息計時與 PR 偵測",
+    "1RM 預估、肌群訓練量圖",
+    "Passkey 登入與離線 PWA"
+   ],
+   "tasks": [
+    "部署後從 Strong / Hevy 匯入舊資料",
+    "研究它的 WebAuthn Passkey 登入實作"
+   ],
+   "sw": [
+    "Docker",
+    "Docker Compose",
+    "HTTPS 網域（手機 Passkey 登入時）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/DuarteSantos8/openGym",
+    "cd openGym",
+    "cp .env.example .env",
+    "docker compose up -d"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "mirror",
+     "README 的 clone 位址指向 GitHub，Gitea 上可能是鏡像"
+    ],
+    [
+     "lic",
+     "動作圖片屬第三方內容，不適用 AGPL，再利用前需取得同意"
+    ]
+   ],
+   "q": "No account on someone else's server, no subscription, no ads, no telemetry.",
+   "rm": true
+  },
+  {
+   "id": "gt-akouzoukos-apotris",
+   "src": "gitea",
+   "n": "akouzoukos/apotris",
+   "url": "https://gitea.com/akouzoukos/apotris",
+   "lic": "AGPL-3.0",
+   "home": null,
+   "cat": "遊戲開發",
+   "diff": "進階",
+   "modes": [
+    "build",
+    "hw"
+   ],
+   "ov": "Apotris 是為 Game Boy Advance 開發的方塊堆疊遊戲，畫面精緻、操作靈敏，也能建置成 PC、Switch、3DS、Android 版本。是學習復古主機開發的有趣題材。",
+   "feat": [
+    "GBA 原生執行",
+    "大量自訂選項",
+    "多平台建置",
+    "PC 版可錄製回放"
+   ],
+   "tasks": [
+    "建置 GBA 版本，用 mGBA 模擬器遊玩",
+    "閱讀它如何在 GBA 的 16 MHz CPU 上做出流暢動畫"
+   ],
+   "sw": [
+    "meson",
+    "devkitPro",
+    "arm-none-eabi-gcc ≥ 13.2"
+   ],
+   "hw": [
+    "GBA 實機 + 燒錄卡，或模擬器"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone --recursive https://gitea.com/akouzoukos/apotris.git",
+    "cd apotris",
+    "meson setup build",
+    "meson compile -C build"
+   ],
+   "insN": null,
+   "r": [],
+   "q": "Apotris is a block stacking game for the Gameboy Advance!",
+   "rm": true
+  },
+  {
+   "id": "bb-atlassian-atlassian-connect-express",
+   "src": "bitbucket",
+   "n": "atlassian/atlassian-connect-express",
+   "url": "https://bitbucket.org/atlassian/atlassian-connect-express",
+   "lic": "Apache-2.0",
+   "home": null,
+   "cat": "Web 與 App 框架",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "cloud"
+   ],
+   "ov": "atlassian-connect-express（ACE）是用 Node.js 與 Express 開發 Atlassian Connect 外掛的工具包，處理 JWT 驗證、安裝生命週期與資料儲存。",
+   "feat": [
+    "自動處理 JWT 驗證",
+    "外掛安裝 / 移除生命週期",
+    "內建儲存層",
+    "本機開發通道"
+   ],
+   "tasks": [
+    "做一個在 Jira 議題頁顯示自訂資訊的外掛",
+    "研究它的 JWT 簽章驗證流程"
+   ],
+   "sw": [
+    "Node.js",
+    "Atlassian Cloud 開發者站台"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [],
+   "ins": [],
+   "insN": "Bitbucket 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [
+    [
+     "keys",
+     "需要 Atlassian 開發者帳號，並以對外通道（如 ngrok）連線"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "bb-atlassian-radar",
+   "src": "bitbucket",
+   "n": "atlassian/radar",
+   "url": "https://bitbucket.org/atlassian/radar",
+   "lic": null,
+   "home": null,
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "Radar 是用 React 撰寫的 REST API 文件瀏覽器，可瀏覽與搜尋 Swagger 2.0 規格的 API 文件。適合研究 API 文件工具的前端實作。",
+   "feat": [
+    "Swagger 2.0 文件瀏覽",
+    "搜尋端點與模型",
+    "React 前端"
+   ],
+   "tasks": [
+    "把自己專案的 OpenAPI 檔載入瀏覽",
+    "比較它與 Swagger UI、Redoc 的差異"
+   ],
+   "sw": [
+    "Node.js / npm"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [],
+   "ins": [],
+   "insN": "Bitbucket 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [],
+   "q": null,
+   "rm": false
+  },
+  {
+   "id": "bb-atlassian-intermediate-forge-development-workshop",
+   "src": "bitbucket",
+   "n": "atlassian/intermediate-forge-development-workshop",
+   "url": "https://bitbucket.org/atlassian/intermediate-forge-development-workshop",
+   "lic": null,
+   "home": null,
+   "cat": "學習資源",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "cloud"
+   ],
+   "ov": "Atlassian 官方的 Forge 中階開發工作坊教材，帶你用 Forge 平台開發 Jira / Confluence 雲端外掛，涵蓋 UI 模組、儲存與事件觸發。",
+   "feat": [
+    "Forge 外掛開發流程",
+    "UI Kit 與 Custom UI",
+    "Forge 儲存與觸發器",
+    "部署與安裝到測試站台"
+   ],
+   "tasks": [
+    "跟著工作坊做完一個 Jira 外掛並部署到免費開發站台",
+    "加上一個排程觸發器自動整理議題"
+   ],
+   "sw": [
+    "Node.js",
+    "Forge CLI"
+   ],
+   "hw": [],
+   "he": true,
+   "os": [],
+   "ins": [
+    "npm install -g @forge/cli",
+    "forge login",
+    "forge deploy",
+    "forge install"
+   ],
+   "insN": "Bitbucket 的 README 不開放自動擷取，以下整理自專案描述與官方文件",
+   "r": [
+    [
+     "keys",
+     "需要 Atlassian 帳號、開發站台與 API 權杖"
+    ]
+   ],
+   "q": null,
+   "rm": false
+  }
+ ]
+}
