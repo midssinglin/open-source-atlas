@@ -1,0 +1,12 @@
+# Mergiraf
+
+A syntax-aware git merge driver for a growing collection of programming languages and file formats.
+
+* [Documentation](https://mergiraf.org/)
+* [Zulip chat](https://mergiraf.zulipchat.com/) (public accessibility sponsored by [Zulip](https://zulip.com))
+
+We welcome contributions and new team members, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+If you want to support our work, thank you! See [Liberapay](https://liberapay.com/Mergiraf).
+
+License: GPLv3
