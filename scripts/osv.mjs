@@ -2,6 +2,7 @@
 // 結果寫入 data/security.json。需要 PATH 中有 git 與 osv-scanner（v2）。
 // 執行：node scripts/osv.mjs        可用 ONLY_IDS=id1,id2 只掃描部分專案
 import { readFile, writeFile, mkdtemp, rm } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { tmpdir } from "node:os";
@@ -40,8 +41,13 @@ async function scan(p) {
     await run("git", ["clone", "--depth", "1", "--filter=blob:none", "--no-checkout", "--quiet", url, dir], { timeout: 240_000 });
     await run("git", ["-C", dir, "sparse-checkout", "set", "--no-cone", ...SPARSE], { timeout: 60_000 });
     await run("git", ["-C", dir, "checkout", "--quiet"], { timeout: 240_000 });
+    // git ls-files 會列出所有索引項目（sparse-checkout 只影響是否實體存在），
+    // 因此這裡以「檔名是否為已知鎖定檔」且「確實存在於磁碟」來篩選。
+    const names = new Set(LOCKFILES);
     const { stdout: files } = await run("git", ["-C", dir, "ls-files"], { maxBuffer: 64 << 20 });
-    const lockfiles = files.split("\n").filter((f) => f && !EXCLUDE_DIRS.test(f));
+    const lockfiles = files.split("\n")
+      .filter((f) => f && names.has(f.split("/").pop()) && !EXCLUDE_DIRS.test(f))
+      .filter((f) => existsSync(join(dir, f)));
     if (!lockfiles.length) return { date: TODAY, lockfiles: 0, packages: 0, vulns: 0, sev: {}, top: [] };
 
     let out = "";
