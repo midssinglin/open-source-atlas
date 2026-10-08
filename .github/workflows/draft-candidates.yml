@@ -1,0 +1,48 @@
+name: 產生收錄草稿
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "從「自動發現」清單挑幾個起草（1–20）"
+        default: "5"
+      names:
+        description: "或指定專案，逗號分隔，例如 github:owner/repo,codeberg:owner/repo（留空則自動挑選）"
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 請 Claude 起草
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COUNT: ${{ inputs.count }}
+          NAMES: ${{ inputs.names }}
+        run: node scripts/draft.mjs
+
+      - name: 開 Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet data/curated.json; then echo "沒有新草稿"; exit 0; fi
+          branch="drafts/$(date -u +%Y%m%d-%H%M%S)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add data/curated.json
+          git commit -m "feat(data): AI 起草的收錄草稿"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" --title "收錄草稿 $(date -u +%Y-%m-%d)" --body-file draft-summary.md

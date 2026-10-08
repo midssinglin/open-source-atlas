@@ -3,13 +3,18 @@ name: 更新資料並部署
 on:
   push:
     branches: [main]
+    paths-ignore: ["README.md", "LICENSE"]
   schedule:
     # 每週一 03:17（台北時間）= 週日 19:17 UTC
     - cron: "17 19 * * 0"
   workflow_dispatch:
     inputs:
       refresh:
-        description: "重新抓取各平台資料"
+        description: "重新抓取各平台資料（星數、README、檔案樹、Scorecard）"
+        type: boolean
+        default: true
+      security:
+        description: "重新掃描依賴漏洞（OSV，約 10–20 分鐘）"
         type: boolean
         default: true
 
@@ -17,6 +22,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  issues: write
 
 concurrency:
   group: pages
@@ -25,21 +31,51 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      - name: 決定要執行的步驟
+        id: plan
+        run: |
+          refresh=false; security=false
+          case "${{ github.event_name }}" in
+            schedule) refresh=true; security=true ;;
+            workflow_dispatch) refresh=${{ inputs.refresh || false }}; security=${{ inputs.security || false }} ;;
+            push) if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q '^data/curated.json$'; then refresh=true; fi ;;
+          esac
+          echo "refresh=$refresh" >> "$GITHUB_OUTPUT"
+          echo "security=$security" >> "$GITHUB_OUTPUT"
+          echo "refresh=$refresh security=$security"
+
       - name: 抓取最新資料
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh)
+        if: steps.plan.outputs.refresh == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/update.mjs
 
+      - name: 安裝 osv-scanner
+        if: steps.plan.outputs.security == 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
+
+      - name: 掃描依賴漏洞
+        if: steps.plan.outputs.security == 'true'
+        run: |
+          go install github.com/google/osv-scanner/v2/cmd/osv-scanner@latest
+          export PATH="$PATH:$(go env GOPATH)/bin"
+          node scripts/osv.mjs
+
       - name: 提交資料變更
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh)
+        if: steps.plan.outputs.refresh == 'true' || steps.plan.outputs.security == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -48,17 +84,24 @@ jobs:
             echo "資料沒有變化"
           else
             git commit -m "chore(data): 更新專案資料 $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main
             git push
           fi
 
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
 
-      - name: 準備網站檔案
+      - name: 產生網站與 SEO 頁面
+        env:
+          SITE_URL: ${{ steps.pages.outputs.base_url }}/
+        run: node scripts/build.mjs
+
+      - name: 產生社群分享圖
         run: |
-          mkdir -p _site
-          cp index.html _site/
-          cp -r data _site/
-          touch _site/.nojekyll
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk >/dev/null
+          pip install --quiet pillow
+          python3 scripts/og.py
 
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -73,3 +116,25 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  notify-failure:
+    needs: [build, deploy]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 開 Issue 通知
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="每週更新失敗 $(date -u +%Y-%m-%d)"
+          existing=$(gh issue list -R "$GITHUB_REPOSITORY" --state open --search "每週更新失敗 in:title" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" -R "$GITHUB_REPOSITORY" --body "又失敗了一次：$RUN_URL"
+          else
+            gh issue create -R "$GITHUB_REPOSITORY" --title "$title" --body "排程執行失敗，網站仍維持上一版資料。
+
+          執行紀錄：$RUN_URL
+
+          常見原因：某個平台 API 暫時無法連線、專案改名或刪除（看「抓取最新資料」步驟的 fail 清單）。修正後到 Actions 手動執行一次即可，成功後可關閉此 Issue。"
+          fi

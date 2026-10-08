@@ -3041,6 +3041,2071 @@
    ],
    "q": null,
    "rm": false
+  },
+  {
+   "id": "gh-ggml-org-llama-cpp",
+   "src": "github",
+   "n": "ggml-org/llama.cpp",
+   "url": "https://github.com/ggml-org/llama.cpp",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "build",
+    "local"
+   ],
+   "ov": "用純 C/C++ 在 CPU、GPU 與 Apple Silicon 上高效執行大型語言模型推論，是 GGUF 格式的原生專案，也是許多本地 LLM 工具的底層引擎。",
+   "feat": [
+    "支援多種量化等級的 GGUF 模型",
+    "CUDA、Metal、Vulkan 等加速後端",
+    "內建 OpenAI 相容的 llama-server",
+    "支援多模態模型"
+   ],
+   "tasks": [
+    "編譯後下載一個 GGUF 模型，用 llama-server 開 API 並用 curl 呼叫",
+    "比較 Q4_K_M 與 Q8_0 量化在速度、記憶體與品質上的差異"
+   ],
+   "sw": [
+    "CMake",
+    "C/C++ 編譯器",
+    "CUDA Toolkit（NVIDIA 加速時）"
+   ],
+   "hw": [
+    "7B Q4 量化約需 5–6 GB RAM 或 VRAM"
+   ],
+   "he": true,
+   "os": [
+    "Linux",
+    "macOS",
+    "Windows"
+   ],
+   "ins": [
+    "cmake -B build",
+    "cmake --build build --config Release",
+    "./build/bin/llama-server -m model.gguf --port 8080"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "模型權重檔動輒數 GB，請從可信來源下載"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-comfyanonymous-comfyui",
+   "src": "github",
+   "n": "comfyanonymous/ComfyUI",
+   "url": "https://github.com/comfyanonymous/ComfyUI",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "節點式的影像生成介面，用拖拉節點組合 Stable Diffusion、Flux 等模型的工作流程，是研究生成式影像流程的熱門工具。",
+   "feat": [
+    "節點圖編輯生成流程，可存成 JSON 分享",
+    "支援多種影像、影片模型",
+    "只重算有變動的節點",
+    "龐大的自訂節點生態"
+   ],
+   "tasks": [
+    "用預設流程生成第一張圖，再加入 ControlNet 控制構圖",
+    "把流程匯出成 JSON，透過 API 批次生成"
+   ],
+   "sw": [
+    "Python 3.12",
+    "PyTorch"
+   ],
+   "hw": [
+    "NVIDIA GPU 建議 8 GB VRAM 以上，純 CPU 很慢"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/comfyanonymous/ComfyUI.git",
+    "cd ComfyUI",
+    "pip install -r requirements.txt",
+    "python main.py"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "模型檔數 GB，優先用 safetensors 並確認來源"
+    ],
+    [
+     "exec",
+     "第三方自訂節點會執行任意 Python 程式碼，安裝前先確認來源"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-openai-whisper",
+   "src": "github",
+   "n": "openai/whisper",
+   "url": "https://github.com/openai/whisper",
+   "cat": "AI 與 LLM",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "OpenAI 開源的語音辨識模型，支援多語言轉錄與翻譯成英文，中文效果不錯。從 tiny 到 large 有多種大小。",
+   "feat": [
+    "多語言語音轉文字",
+    "語音翻譯成英文",
+    "自動偵測語言",
+    "輸出 SRT / VTT 字幕"
+   ],
+   "tasks": [
+    "把一段中文錄音轉成 SRT 字幕檔",
+    "比較 tiny、small、medium 在準確度與速度上的差異"
+   ],
+   "sw": [
+    "Python 3",
+    "PyTorch",
+    "ffmpeg"
+   ],
+   "hw": [
+    "tiny / base 用 CPU 即可，large 約需 10 GB VRAM"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install -U openai-whisper",
+    "whisper audio.mp3 --model small --language Chinese"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "首次使用會下載模型權重"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-karpathy-nanogpt",
+   "src": "github",
+   "n": "karpathy/nanoGPT",
+   "url": "https://github.com/karpathy/nanoGPT",
+   "cat": "AI 與 LLM",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "read"
+   ],
+   "ov": "Andrej Karpathy 寫的極簡 GPT 訓練程式，核心只有幾百行，從資料準備、訓練到生成一目了然，是理解 Transformer 的經典教材。",
+   "feat": [
+    "約 300 行的模型與訓練迴圈",
+    "可在筆電訓練字元級模型",
+    "可載入 GPT-2 權重微調",
+    "支援多 GPU"
+   ],
+   "tasks": [
+    "訓練 shakespeare_char 模型並生成文字",
+    "改用自己的中文語料重新訓練，觀察 loss 變化"
+   ],
+   "sw": [
+    "Python 3",
+    "PyTorch",
+    "numpy、tiktoken"
+   ],
+   "hw": [
+    "小型範例 CPU 可跑，有 GPU 更快"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "pip install torch numpy transformers datasets tiktoken wandb tqdm",
+    "python data/shakespeare_char/prepare.py",
+    "python train.py config/train_shakespeare_char.py"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-vllm-project-vllm",
+   "src": "github",
+   "n": "vllm-project/vllm",
+   "url": "https://github.com/vllm-project/vllm",
+   "cat": "AI 與 LLM",
+   "diff": "進階",
+   "modes": [
+    "local",
+    "docker"
+   ],
+   "ov": "高吞吐量的 LLM 推論與服務引擎，以 PagedAttention 管理顯示記憶體，是正式環境部署開源模型的主流選擇，提供 OpenAI 相容 API。",
+   "feat": [
+    "PagedAttention 與連續批次處理",
+    "OpenAI 相容 API 伺服器",
+    "多種量化與平行化",
+    "支援 NVIDIA、AMD"
+   ],
+   "tasks": [
+    "用 vllm serve 部署小模型，量測吞吐量",
+    "和 Ollama 比較同模型在並發下的延遲"
+   ],
+   "sw": [
+    "Python 3.10+",
+    "CUDA"
+   ],
+   "hw": [
+    "NVIDIA GPU，建議 16 GB VRAM 以上"
+   ],
+   "he": true,
+   "os": [
+    "Linux"
+   ],
+   "ins": [
+    "pip install vllm",
+    "vllm serve Qwen/Qwen2.5-1.5B-Instruct"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "dl",
+     "會下載模型權重"
+    ],
+    [
+     "expose",
+     "API 預設無驗證，對外要加金鑰或反向代理"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-ultralytics-ultralytics",
+   "src": "github",
+   "n": "ultralytics/ultralytics",
+   "url": "https://github.com/ultralytics/ultralytics",
+   "cat": "AI 與 LLM",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "YOLO 物件偵測系列的官方實作，支援偵測、分割、姿態估計與分類，幾行程式就能訓練與推論，是電腦視覺入門最常用的套件。",
+   "feat": [
+    "偵測、分割、姿態估計、分類",
+    "命令列與 Python API",
+    "自訂資料集訓練",
+    "匯出 ONNX、TensorRT"
+   ],
+   "tasks": [
+    "用預訓練模型偵測攝影機畫面中的物件",
+    "標註 50 張圖片，訓練專屬偵測模型"
+   ],
+   "sw": [
+    "Python 3.8+",
+    "PyTorch"
+   ],
+   "hw": [
+    "CPU 可推論，訓練建議 GPU"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "pip install ultralytics"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "lic",
+     "AGPL-3.0，商業閉源需另購企業授權"
+    ],
+    [
+     "dl",
+     "首次使用會下載模型權重"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-nilbuild-developer-roadmap",
+   "src": "github",
+   "n": "nilbuild/developer-roadmap",
+   "url": "https://github.com/nilbuild/developer-roadmap",
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read",
+    "local"
+   ],
+   "ov": "roadmap.sh 的原始碼，提供前端、後端、DevOps、AI 等數十條互動式學習路線圖，每個節點都附學習資源。",
+   "feat": [
+    "數十條職能與技術路線圖",
+    "每個節點附免費資源",
+    "可標記學習進度",
+    "最佳實踐與面試題"
+   ],
+   "tasks": [
+    "選一條路線，標記已會的節點，列出接下來要學的三個主題",
+    "把網站在本機跑起來，研究 Astro 專案結構"
+   ],
+   "sw": [
+    "Node.js",
+    "pnpm"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/nilbuild/developer-roadmap.git",
+    "cd developer-roadmap",
+    "pnpm install",
+    "pnpm dev"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": null,
+   "home": "https://roadmap.sh"
+  },
+  {
+   "id": "gh-jwasham-coding-interview-university",
+   "src": "github",
+   "n": "jwasham/coding-interview-university",
+   "url": "https://github.com/jwasham/coding-interview-university",
+   "cat": "學習資源",
+   "diff": "中階",
+   "modes": [
+    "read"
+   ],
+   "ov": "作者自學成為軟體工程師的完整計畫，從資料結構、演算法、作業系統到系統設計，依序列出學習主題與資源，可當自學電腦科學的課表。",
+   "feat": [
+    "完整的資料結構與演算法清單",
+    "每個主題附影片與文章",
+    "面試準備建議",
+    "含繁體中文翻譯"
+   ],
+   "tasks": [
+    "用數週完成資料結構章節，每個結構自己實作一次",
+    "整理一份自己的學習進度表並公開"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": null,
+   "home": null
+  },
+  {
+   "id": "gh-thealgorithms-python",
+   "src": "github",
+   "n": "TheAlgorithms/Python",
+   "url": "https://github.com/TheAlgorithms/Python",
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read",
+    "local"
+   ],
+   "ov": "用 Python 實作的演算法大全，從排序、圖論到機器學習，每支程式都附 doctest，適合邊讀邊練，也是第一次貢獻開源的好地方。",
+   "feat": [
+    "上千個演算法實作",
+    "每支程式含 doctest",
+    "分類清楚的目錄",
+    "嚴格的風格檢查"
+   ],
+   "tasks": [
+    "挑 5 個排序演算法自己先寫，再對照實作",
+    "為一個缺少測試的演算法補上 doctest 並發 PR"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/TheAlgorithms/Python.git",
+    "cd Python",
+    "python -m pytest --doctest-modules sorts/"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-microsoft-web-dev-for-beginners",
+   "src": "github",
+   "n": "microsoft/Web-Dev-For-Beginners",
+   "url": "https://github.com/microsoft/Web-Dev-For-Beginners",
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read",
+    "local"
+   ],
+   "ov": "微軟的 12 週、24 堂網頁開發入門課，從 HTML、CSS、JavaScript 寫到瀏覽器擴充、太空遊戲與銀行 App 專案。",
+   "feat": [
+    "專案導向：打字遊戲、太空射擊、銀行 App",
+    "每課附課前 / 課後測驗",
+    "無障礙與網頁基礎",
+    "多語言翻譯"
+   ],
+   "tasks": [
+    "完成太空射擊遊戲並部署到 GitHub Pages",
+    "把銀行 App 改用自己的設計樣式"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-firstcontributions-first-contributions",
+   "src": "github",
+   "n": "firstcontributions/first-contributions",
+   "url": "https://github.com/firstcontributions/first-contributions",
+   "cat": "學習資源",
+   "diff": "入門",
+   "modes": [
+    "read"
+   ],
+   "ov": "專門讓新手練習第一次開源貢獻的儲存庫，照步驟 fork、建立分支、修改檔案並送出 Pull Request，整個流程都有圖文說明。",
+   "feat": [
+    "一步步的 fork → PR 教學",
+    "命令列與圖形工具兩版",
+    "多語言教學",
+    "附可貢獻專案清單"
+   ],
+   "tasks": [
+    "照教學完成第一個 PR",
+    "再到本站任一專案找 good first issue 實際貢獻"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-jellyfin-jellyfin",
+   "src": "github",
+   "n": "jellyfin/jellyfin",
+   "url": "https://github.com/jellyfin/jellyfin",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "完全免費的自架影音伺服器，整理電影、影集、音樂並串流到電視、手機與瀏覽器，沒有付費牆，是 Plex / Emby 的開源替代方案。",
+   "feat": [
+    "自動抓取海報與中繼資料",
+    "多使用者與家長控制",
+    "硬體加速轉碼",
+    "多平台用戶端"
+   ],
+   "tasks": [
+    "在家用電腦部署，把影片資料夾掛進去並用手機觀看",
+    "設定硬體轉碼，比較 CPU 使用率"
+   ],
+   "sw": [
+    "Docker，或官方安裝包"
+   ],
+   "hw": [
+    "轉碼建議有支援硬體加速的顯示晶片"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d --name jellyfin -p 8096:8096 -v ./config:/config -v ./media:/media:ro --restart unless-stopped jellyfin/jellyfin"
+   ],
+   "insN": "指令整理自官方文件",
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-2.0",
+   "home": "https://jellyfin.org"
+  },
+  {
+   "id": "gh-nextcloud-server",
+   "src": "github",
+   "n": "nextcloud/server",
+   "url": "https://github.com/nextcloud/server",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "自架的雲端硬碟與協作平台，提供檔案同步、日曆、聯絡人、線上文件與視訊會議，是 Google Drive / Dropbox 的開源替代方案。",
+   "feat": [
+    "檔案同步與分享",
+    "日曆、聯絡人、待辦",
+    "上百種擴充 App",
+    "桌面與手機同步"
+   ],
+   "tasks": [
+    "用 Docker 部署並在手機設定相簿自動上傳",
+    "加上反向代理與 HTTPS，練習正式環境部署"
+   ],
+   "sw": [
+    "Docker，或 PHP + 資料庫 + 網頁伺服器"
+   ],
+   "hw": [
+    "2 GB RAM 起"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d -p 8080:80 -v nextcloud:/var/www/html nextcloud"
+   ],
+   "insN": "官方較推薦功能完整的 Nextcloud AIO",
+   "r": [
+    [
+     "expose",
+     "存放個人資料，對外務必用 HTTPS 並開啟雙因素驗證"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": "https://nextcloud.com"
+  },
+  {
+   "id": "gh-dani-garcia-vaultwarden",
+   "src": "github",
+   "n": "dani-garcia/vaultwarden",
+   "url": "https://github.com/dani-garcia/vaultwarden",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "用 Rust 撰寫、資源需求極低的 Bitwarden 相容密碼管理伺服器，可直接使用官方 Bitwarden 瀏覽器擴充與 App。",
+   "feat": [
+    "相容 Bitwarden 官方用戶端",
+    "組織與共享密碼庫",
+    "雙因素驗證",
+    "Raspberry Pi 也能跑"
+   ],
+   "tasks": [
+    "部署後搭配 Caddy 自動 HTTPS，從瀏覽器擴充登入",
+    "設定每日自動備份並測試還原"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [
+    "極低，約 50 MB RAM"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run -d --name vaultwarden -v ./vw-data/:/data/ -p 80:80 vaultwarden/server:latest"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "expose",
+     "存放所有密碼，必須透過 HTTPS 提供並做好備份"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-paperless-ngx-paperless-ngx",
+   "src": "github",
+   "n": "paperless-ngx/paperless-ngx",
+   "url": "https://github.com/paperless-ngx/paperless-ngx",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "把紙本文件掃描後自動 OCR、分類、加標籤並全文搜尋的文件管理系統，適合整理帳單、合約與收據，打造無紙化的個人檔案庫。",
+   "feat": [
+    "自動 OCR（支援中文）",
+    "依內容自動分類與加標籤",
+    "全文搜尋",
+    "信箱收件自動匯入"
+   ],
+   "tasks": [
+    "掃描 20 張收據，設定規則讓它們自動歸類",
+    "設定 OCR 語言為繁體中文並比較辨識結果"
+   ],
+   "sw": [
+    "Docker Compose"
+   ],
+   "hw": [
+    "2 GB RAM 起，大量 OCR 需要更多 CPU"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "bash -c \"$(curl -L https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)\""
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "官方安裝為下載腳本後執行，建議先閱讀腳本"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-3.0",
+   "home": "https://docs.paperless-ngx.com"
+  },
+  {
+   "id": "gh-syncthing-syncthing",
+   "src": "github",
+   "n": "syncthing/syncthing",
+   "url": "https://github.com/syncthing/syncthing",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "點對點的檔案同步工具，在自己的裝置之間直接同步資料夾，不經過任何雲端伺服器，傳輸全程加密。",
+   "feat": [
+    "裝置間直接同步，不需中央伺服器",
+    "端對端加密",
+    "檔案版本保留",
+    "跨平台，含 Android"
+   ],
+   "tasks": [
+    "在電腦和手機之間同步一個筆記資料夾",
+    "設定「僅傳送」資料夾做單向備份"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Android",
+    "BSD"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MPL-2.0",
+   "home": "https://syncthing.net"
+  },
+  {
+   "id": "gh-adguardteam-adguardhome",
+   "src": "github",
+   "n": "AdguardTeam/AdGuardHome",
+   "url": "https://github.com/AdguardTeam/AdGuardHome",
+   "cat": "資安與網路",
+   "diff": "入門",
+   "modes": [
+    "local",
+    "docker",
+    "hw"
+   ],
+   "ov": "全網路層級的廣告與追蹤攔截 DNS 伺服器，功能與 Pi-hole 類似，另外內建加密 DNS 與較現代化的管理介面。",
+   "feat": [
+    "全網路廣告與追蹤攔截",
+    "內建加密 DNS（DoH / DoT）",
+    "家長控制與安全瀏覽",
+    "每台裝置的查詢統計"
+   ],
+   "tasks": [
+    "部署後把路由器 DNS 指過去，比較攔截前後的網頁載入",
+    "和 Pi-hole 並排比較功能與資源用量"
+   ],
+   "sw": [
+    "Docker，或官方執行檔"
+   ],
+   "hw": [
+    "Raspberry Pi 等低功耗主機即可"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "docker run --name adguardhome --restart unless-stopped -v ./work:/opt/adguardhome/work -v ./conf:/opt/adguardhome/conf -p 53:53/tcp -p 53:53/udp -p 3000:3000/tcp -d adguard/adguardhome"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-portainer-portainer",
+   "src": "github",
+   "n": "portainer/portainer",
+   "url": "https://github.com/portainer/portainer",
+   "cat": "DevOps 與雲原生",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "用網頁介面管理 Docker、Swarm 與 Kubernetes 環境，可視化查看容器、映像檔、網路與磁碟區，是熟悉容器概念的好幫手。",
+   "feat": [
+    "圖形化管理容器與映像檔",
+    "部署 Compose Stack",
+    "多環境集中管理",
+    "使用者與權限控制"
+   ],
+   "tasks": [
+    "用 Portainer 部署本站任一個 compose 檔",
+    "觀察容器的日誌、資源用量與網路設定"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker volume create portainer_data",
+    "docker run -d -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "sock",
+     "需掛載 docker.sock 才能管理容器，請勿對外開放管理介面"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Zlib",
+   "home": null
+  },
+  {
+   "id": "gh-excalidraw-excalidraw",
+   "src": "github",
+   "n": "excalidraw/excalidraw",
+   "url": "https://github.com/excalidraw/excalidraw",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "手繪風格的線上白板，畫架構圖、流程圖、草稿都很順手，支援即時協作與端對端加密分享，也能嵌入自己的 React 專案。",
+   "feat": [
+    "手繪風格繪圖",
+    "即時多人協作",
+    "端對端加密分享",
+    "可作為 React 元件嵌入"
+   ],
+   "tasks": [
+    "自架一份，畫出本站的系統架構圖",
+    "把 Excalidraw 元件嵌入自己的 React 頁面"
+   ],
+   "sw": [
+    "Docker，或 Node.js"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run --rm -dit --name excalidraw -p 5000:80 excalidraw/excalidraw:latest"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://excalidraw.com"
+  },
+  {
+   "id": "gh-umami-software-umami",
+   "src": "github",
+   "n": "umami-software/umami",
+   "url": "https://github.com/umami-software/umami",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "注重隱私的網站流量分析工具，不使用 Cookie、不收集個資，介面簡潔，是 Google Analytics 的輕量替代方案。",
+   "feat": [
+    "不使用 Cookie，符合隱私法規",
+    "即時訪客、來源、裝置統計",
+    "自訂事件追蹤",
+    "多網站管理"
+   ],
+   "tasks": [
+    "自架 Umami，追蹤自己的 GitHub Pages 網站",
+    "設定一個按鈕點擊的自訂事件"
+   ],
+   "sw": [
+    "Docker Compose",
+    "PostgreSQL 或 MySQL"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "git clone https://github.com/umami-software/umami.git",
+    "cd umami",
+    "docker compose up -d"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "weak",
+     "預設管理員帳密需在首次登入後立即修改"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://umami.is"
+  },
+  {
+   "id": "gh-pocketbase-pocketbase",
+   "src": "github",
+   "n": "pocketbase/pocketbase",
+   "url": "https://github.com/pocketbase/pocketbase",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "只有一個執行檔的後端：內建 SQLite 資料庫、身分驗證、即時訂閱、檔案儲存與管理後台，下載就能用，適合小型專案與原型。",
+   "feat": [
+    "單一執行檔，零相依",
+    "內建管理後台",
+    "即時訂閱與身分驗證",
+    "可用 Go 或 JavaScript 擴充"
+   ],
+   "tasks": [
+    "用 PocketBase 當後端做一個待辦清單網頁",
+    "用 Go 擴充一個自訂 API 路由"
+   ],
+   "sw": [
+    "無（單一執行檔）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "./pocketbase serve"
+   ],
+   "insN": "先從 GitHub Releases 下載對應平台的執行檔",
+   "r": [
+    [
+     "beta",
+     "1.0 之前不保證向後相容，升級前請看更新說明"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://pocketbase.io"
+  },
+  {
+   "id": "gh-supabase-supabase",
+   "src": "github",
+   "n": "supabase/supabase",
+   "url": "https://github.com/supabase/supabase",
+   "cat": "自架服務",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "cloud"
+   ],
+   "ov": "以 PostgreSQL 為核心的開源後端平台，提供資料庫、身分驗證、即時訂閱、檔案儲存與 Edge Functions，是 Firebase 的熱門替代方案。",
+   "feat": [
+    "託管 PostgreSQL 與自動 API",
+    "身分驗證與資料列層級安全",
+    "即時訂閱與檔案儲存",
+    "Edge Functions"
+   ],
+   "tasks": [
+    "自架後做一個有登入與 RLS 權限的留言板",
+    "比較自架版與官方雲端版的差異"
+   ],
+   "sw": [
+    "Docker Compose",
+    "Git"
+   ],
+   "hw": [
+    "4 GB RAM 以上較順"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [
+    "git clone --depth 1 https://github.com/supabase/supabase",
+    "cd supabase/docker",
+    "cp .env.example .env",
+    "docker compose up -d"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "weak",
+     ".env 內的金鑰與密碼必須全部替換後才能對外使用"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": "https://supabase.com"
+  },
+  {
+   "id": "gh-binwiederhier-ntfy",
+   "src": "github",
+   "n": "binwiederhier/ntfy",
+   "url": "https://github.com/binwiederhier/ntfy",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "簡單的推播通知服務，用一行 curl 就能把訊息推到手機或電腦，很適合讓腳本、排程或監控服務發通知。",
+   "feat": [
+    "HTTP 請求即可發送通知",
+    "Android、iOS 與網頁用戶端",
+    "附件、優先順序、動作按鈕",
+    "可自架或用公開伺服器"
+   ],
+   "tasks": [
+    "讓備份腳本完成時用 curl 推播到手機",
+    "把 Uptime Kuma 的通知管道設成自架 ntfy"
+   ],
+   "sw": [
+    "Docker，或單一執行檔"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run -p 80:80 -itd binwiederhier/ntfy serve"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": "https://ntfy.sh"
+  },
+  {
+   "id": "cb-readeck-readeck",
+   "src": "codeberg",
+   "n": "readeck/readeck",
+   "url": "https://codeberg.org/readeck/readeck",
+   "cat": "自架服務",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "自架的稍後閱讀與網頁存檔服務，把文章完整保存下來（含圖片），可加註解、標記重點，並匯出成電子書。",
+   "feat": [
+    "完整保存網頁內容與圖片",
+    "標記重點與註解",
+    "匯出 EPUB",
+    "瀏覽器擴充功能"
+   ],
+   "tasks": [
+    "收藏 10 篇技術文章並匯出成一本 EPUB",
+    "比較它與 Wallabag 的功能差異"
+   ],
+   "sw": [
+    "Docker，或單一執行檔"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run --rm -ti -p 8000:8000 -v readeck-data:/readeck codeberg.org/readeck/readeck:latest"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": "https://readeck.org"
+  },
+  {
+   "id": "gh-docker-compose",
+   "src": "github",
+   "n": "docker/compose",
+   "url": "https://github.com/docker/compose",
+   "cat": "DevOps 與雲原生",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "Docker Compose 的原始碼。用一份 YAML 定義多個容器組成的應用，一行指令就能啟動整套服務，是學習容器化部署的必經之路。",
+   "feat": [
+    "YAML 定義多容器應用",
+    "網路與磁碟區管理",
+    "profiles 管理不同環境",
+    "健康檢查與相依順序"
+   ],
+   "tasks": [
+    "把本站任一個 docker run 指令改寫成 compose 並加上健康檢查",
+    "用 profiles 區分開發與正式環境"
+   ],
+   "sw": [
+    "Docker Engine"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-opentofu-opentofu",
+   "src": "github",
+   "n": "opentofu/opentofu",
+   "url": "https://github.com/opentofu/opentofu",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "Terraform 改用商業授權後由社群分支而來的基礎設施即程式碼工具，採 MPL-2.0 開源，大部分 Terraform 設定可直接沿用。",
+   "feat": [
+    "以 HCL 宣告基礎設施",
+    "大量 provider",
+    "狀態檔加密",
+    "相容 Terraform 設定"
+   ],
+   "tasks": [
+    "用 Docker provider 在本機管理容器，練習 plan / apply / destroy",
+    "把狀態檔存到 S3 相容儲存並開啟加密"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "keys",
+     "操作雲端資源需憑證，請用最小權限帳號"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MPL-2.0",
+   "home": "https://opentofu.org"
+  },
+  {
+   "id": "gh-ansible-ansible",
+   "src": "github",
+   "n": "ansible/ansible",
+   "url": "https://github.com/ansible/ansible",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "免安裝代理程式的自動化工具，透過 SSH 用 YAML playbook 設定伺服器、部署應用與編排工作流程，學習曲線平緩。",
+   "feat": [
+    "無代理，只需 SSH",
+    "YAML playbook",
+    "上千個模組",
+    "Ansible Vault 管理機密"
+   ],
+   "tasks": [
+    "寫一個 playbook 在兩台 VM 上安裝並設定 Nginx",
+    "用 Ansible Vault 加密資料庫密碼"
+   ],
+   "sw": [
+    "Python 3",
+    "SSH"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pipx install --include-deps ansible"
+   ],
+   "insN": "安裝指令整理自官方文件",
+   "r": [
+    [
+     "root",
+     "playbook 常用 become 取得 root，執行別人的 playbook 前先讀過"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-prometheus-prometheus",
+   "src": "github",
+   "n": "prometheus/prometheus",
+   "url": "https://github.com/prometheus/prometheus",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "雲原生監控的事實標準，以拉取方式收集時間序列指標，搭配 PromQL 查詢與 Alertmanager 告警，常與 Grafana 一起使用。",
+   "feat": [
+    "多維度時間序列模型",
+    "PromQL 查詢語言",
+    "服務自動探索",
+    "告警規則"
+   ],
+   "tasks": [
+    "用 node_exporter 監控自己的電腦並寫一條 CPU 告警規則",
+    "和 Grafana 串接做一個主機儀表板"
+   ],
+   "sw": [
+    "Docker，或單一執行檔"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-grafana-grafana",
+   "src": "github",
+   "n": "grafana/grafana",
+   "url": "https://github.com/grafana/grafana",
+   "cat": "DevOps 與雲原生",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "最受歡迎的開源資料視覺化與儀表板工具，可連接 Prometheus、Loki、PostgreSQL 等數十種資料來源。",
+   "feat": [
+    "數十種資料來源",
+    "豐富的圖表與儀表板",
+    "告警與通知",
+    "社群儀表板範本"
+   ],
+   "tasks": [
+    "接上 Prometheus，匯入社群的 Node Exporter 儀表板",
+    "用 PostgreSQL 做一個自己的業務報表"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "weak",
+     "預設帳密 admin / admin，首次登入會要求修改"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": null
+  },
+  {
+   "id": "gh-k3s-io-k3s",
+   "src": "github",
+   "n": "k3s-io/k3s",
+   "url": "https://github.com/k3s-io/k3s",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "local",
+    "hw"
+   ],
+   "ov": "輕量版 Kubernetes，打包成單一執行檔，Raspberry Pi 也能跑，是在家用實驗室或邊緣裝置練習 Kubernetes 的熱門選擇。",
+   "feat": [
+    "單一執行檔的完整 Kubernetes",
+    "內建 Traefik、本機儲存",
+    "支援 ARM",
+    "幾分鐘建好叢集"
+   ],
+   "tasks": [
+    "用兩台 VM 或樹莓派組一個 k3s 叢集並部署應用",
+    "用 Helm 在上面安裝 Gitea chart"
+   ],
+   "sw": [],
+   "hw": [
+    "Server 節點建議 2 核 / 2 GB RAM",
+    "Raspberry Pi 4 可執行"
+   ],
+   "he": true,
+   "os": [
+    "Linux"
+   ],
+   "ins": [
+    "curl -sfL https://get.k3s.io | sh -"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "pipe",
+     "官方安裝為 curl | sh"
+    ],
+    [
+     "root",
+     "安裝腳本需 root 並建立系統服務"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": "https://k3s.io"
+  },
+  {
+   "id": "gh-jesseduffield-lazygit",
+   "src": "github",
+   "n": "jesseduffield/lazygit",
+   "url": "https://github.com/jesseduffield/lazygit",
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "終端機裡的 Git 圖形介面，用鍵盤就能暫存、提交、分支、變基、解決衝突，讓複雜的 Git 操作變得直覺，很適合學 Git。",
+   "feat": [
+    "視覺化暫存與提交",
+    "互動式變基",
+    "分支與 stash 管理",
+    "解決合併衝突"
+   ],
+   "tasks": [
+    "用 lazygit 做一次互動式變基整理提交紀錄",
+    "在它裡面解決一次合併衝突"
+   ],
+   "sw": [
+    "Git"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "brew install lazygit"
+   ],
+   "insN": "其他平台安裝方式見 README",
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-sharkdp-bat",
+   "src": "github",
+   "n": "sharkdp/bat",
+   "url": "https://github.com/sharkdp/bat",
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "cat 的現代替代品，用 Rust 寫成，有語法高亮、Git 變更標示與自動分頁，是打造舒適命令列環境的入門工具。",
+   "feat": [
+    "語法高亮",
+    "顯示 Git 變更",
+    "自動分頁",
+    "可當其他工具的高亮後端"
+   ],
+   "tasks": [
+    "把 shell 的 cat 別名改成 bat，瀏覽幾個原始碼檔",
+    "搭配 fzf 做一個帶預覽的檔案搜尋"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Linux",
+    "macOS",
+    "Windows"
+   ],
+   "ins": [
+    "cargo install bat"
+   ],
+   "insN": "也可用各系統的套件管理器安裝",
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-httpie-cli",
+   "src": "github",
+   "n": "httpie/cli",
+   "url": "https://github.com/httpie/cli",
+   "cat": "開發工具",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "對人友善的命令列 HTTP 用戶端，語法比 curl 直覺，預設彩色輸出並自動格式化 JSON，測試 API 很方便。",
+   "feat": [
+    "直覺的請求語法",
+    "彩色高亮與 JSON 格式化",
+    "表單與檔案上傳",
+    "工作階段保存"
+   ],
+   "tasks": [
+    "用 HTTPie 測試本站某個自架服務的 API",
+    "用 session 功能保存登入後的 token"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "python -m pip install httpie",
+    "https httpbin.org/get"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "BSD-3-Clause",
+   "home": "https://httpie.io"
+  },
+  {
+   "id": "gt-gitea-helm-gitea",
+   "src": "gitea",
+   "n": "gitea/helm-gitea",
+   "url": "https://gitea.com/gitea/helm-gitea",
+   "cat": "DevOps 與雲原生",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "在 Kubernetes 上部署 Gitea 的官方 Helm chart，可設定資料庫、快取、持久化儲存與 Ingress，是練習 Helm 的實用案例。",
+   "feat": [
+    "一鍵部署 Gitea 到 Kubernetes",
+    "可選 PostgreSQL 相依",
+    "Ingress 與 TLS 設定",
+    "高可用部署選項"
+   ],
+   "tasks": [
+    "在 k3s 上用 Helm 安裝 Gitea 並設定持久化儲存",
+    "修改 values.yaml 開啟 Gitea Actions"
+   ],
+   "sw": [
+    "Kubernetes 叢集",
+    "Helm"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "helm repo add gitea-charts https://dl.gitea.com/charts/",
+    "helm install gitea gitea-charts/gitea"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": null
+  },
+  {
+   "id": "gh-owasp-wrongsecrets",
+   "src": "github",
+   "n": "OWASP/wrongsecrets",
+   "url": "https://github.com/OWASP/wrongsecrets",
+   "cat": "資安與網路",
+   "diff": "中階",
+   "modes": [
+    "docker"
+   ],
+   "ov": "OWASP 的教學靶場，透過一系列關卡示範「機密資料該怎麼存、不該怎麼存」，幫開發者理解憑證外洩的常見成因與正確做法。",
+   "feat": [
+    "漸進式的教學關卡",
+    "涵蓋環境變數、設定檔等情境",
+    "可本機或容器執行",
+    "適合團隊教育訓練"
+   ],
+   "tasks": [
+    "在隔離環境完成前幾個關卡並寫下學到的修正方法",
+    "對照自己的專案檢查有沒有類似問題"
+   ],
+   "sw": [
+    "Docker"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run -p 8080:8080 jeroenwillemsen/wrongsecrets:latest-no-vault"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "vuln",
+     "刻意示範不安全寫法，僅供學習，請在隔離環境操作"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-owasp-cheatsheetseries",
+   "src": "github",
+   "n": "OWASP/CheatSheetSeries",
+   "url": "https://github.com/OWASP/CheatSheetSeries",
+   "cat": "資安與網路",
+   "diff": "入門",
+   "modes": [
+    "read"
+   ],
+   "ov": "OWASP 的防禦面速查表合集，為各種常見資安主題（身分驗證、加密儲存、輸入驗證等）提供簡潔的正確做法建議，是寫出安全程式的實用參考。",
+   "feat": [
+    "上百份主題速查表",
+    "聚焦防禦與正確做法",
+    "對應 OWASP Top 10",
+    "社群持續維護"
+   ],
+   "tasks": [
+    "讀「Password Storage」速查表並檢查自己專案的密碼處理",
+    "挑一份速查表整理成團隊的檢查清單"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "CC-BY-SA-4.0",
+   "home": null
+  },
+  {
+   "id": "gh-owasp-nettacker",
+   "src": "github",
+   "n": "OWASP/Nettacker",
+   "url": "https://github.com/OWASP/Nettacker",
+   "cat": "資安與網路",
+   "diff": "中階",
+   "modes": [
+    "docker",
+    "local"
+   ],
+   "ov": "OWASP 的自動化資訊蒐集與資產盤點框架，用模組化方式掃描自己擁有的網路，盤點開放服務與弱點，協助防禦方了解自身曝險。",
+   "feat": [
+    "模組化掃描引擎",
+    "資產與服務盤點",
+    "HTML / JSON 報告",
+    "可排程定期掃描"
+   ],
+   "tasks": [
+    "掃描自己架設的測試主機並閱讀報告",
+    "對照報告關閉不需要對外的服務"
+   ],
+   "sw": [
+    "Docker，或 Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run owasp/nettacker -i 127.0.0.1 -m port_scan"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "tos",
+     "只能掃描自己擁有或獲授權的目標，未授權掃描可能違法"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
+  },
+  {
+   "id": "gh-openvpn-openvpn",
+   "src": "github",
+   "n": "OpenVPN/openvpn",
+   "url": "https://github.com/OpenVPN/openvpn",
+   "cat": "資安與網路",
+   "diff": "進階",
+   "modes": [
+    "build",
+    "local"
+   ],
+   "ov": "歷史悠久、應用廣泛的開源 VPN，使用 TLS 建立加密通道，可做遠端存取或站對站連線。研究它的原始碼是學習 VPN 與 TLS 的好材料。",
+   "feat": [
+    "以 TLS 建立加密通道",
+    "遠端存取與站對站",
+    "憑證或帳密驗證",
+    "跨平台用戶端"
+   ],
+   "tasks": [
+    "用官方腳本架一台 VPN 伺服器，從手機連回家中網路",
+    "閱讀握手流程，理解憑證如何驗證身分"
+   ],
+   "sw": [
+    "OpenSSL",
+    "lz4 等相依（建置時）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Linux",
+    "Windows",
+    "macOS",
+    "BSD"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "root",
+     "安裝與設定 VPN 需 root 權限並調整網路設定"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-2.0",
+   "home": "https://openvpn.net"
+  },
+  {
+   "id": "gh-fastapi-fastapi",
+   "src": "github",
+   "n": "fastapi/fastapi",
+   "url": "https://github.com/fastapi/fastapi",
+   "cat": "Web 與 App 框架",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "現代、高效能的 Python 網頁框架，以型別註記自動產生資料驗證與互動式 API 文件，寫 API 又快又不易出錯。",
+   "feat": [
+    "型別註記自動驗證",
+    "自動產生 Swagger / ReDoc 文件",
+    "原生支援 async",
+    "相依注入"
+   ],
+   "tasks": [
+    "做一個有資料驗證的待辦清單 API，用自動文件測試",
+    "加上 OAuth2 密碼流程的登入"
+   ],
+   "sw": [
+    "Python 3.8+"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install \"fastapi[standard]\"",
+    "fastapi dev main.py"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://fastapi.tiangolo.com"
+  },
+  {
+   "id": "gh-django-django",
+   "src": "github",
+   "n": "django/django",
+   "url": "https://github.com/django/django",
+   "cat": "Web 與 App 框架",
+   "diff": "中階",
+   "modes": [
+    "local"
+   ],
+   "ov": "功能齊全的 Python 網頁框架，內建 ORM、管理後台、表單與驗證系統，適合快速打造內容管理或後台系統，生態非常成熟。",
+   "feat": [
+    "強大的 ORM 與資料遷移",
+    "自動產生的管理後台",
+    "表單與使用者驗證",
+    "完善的安全預設"
+   ],
+   "tasks": [
+    "照官方教學做一個投票應用並啟用管理後台",
+    "把它部署到自架伺服器並接上 PostgreSQL"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install Django",
+    "django-admin startproject mysite",
+    "python manage.py runserver"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "BSD-3-Clause",
+   "home": "https://www.djangoproject.com"
+  },
+  {
+   "id": "gh-vuejs-core",
+   "src": "github",
+   "n": "vuejs/core",
+   "url": "https://github.com/vuejs/core",
+   "cat": "Web 與 App 框架",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "漸進式的 JavaScript 前端框架 Vue 的核心原始碼，可從一個 script 標籤漸進採用，也能搭配工具鏈做大型單頁應用，上手友善。",
+   "feat": [
+    "響應式資料綁定",
+    "單檔元件",
+    "組合式 API",
+    "可漸進採用"
+   ],
+   "tasks": [
+    "用 Vite 建一個 Vue 專案，做一個會即時計算的表單",
+    "把一個靜態頁面改寫成 Vue 元件"
+   ],
+   "sw": [
+    "Node.js"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "npm create vue@latest"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://vuejs.org"
+  },
+  {
+   "id": "gh-sveltejs-svelte",
+   "src": "github",
+   "n": "sveltejs/svelte",
+   "url": "https://github.com/sveltejs/svelte",
+   "cat": "Web 與 App 框架",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "把元件在建置階段編譯成高效原生 JavaScript 的前端框架，沒有虛擬 DOM，產出的套件很小，寫法簡潔接近原生。",
+   "feat": [
+    "編譯期優化，無虛擬 DOM",
+    "語法簡潔",
+    "內建響應式與動畫",
+    "搭配 SvelteKit 做全端"
+   ],
+   "tasks": [
+    "用 SvelteKit 做一個部落格並部署到 GitHub Pages",
+    "比較同一個元件在 Svelte 與 Vue 的寫法差異"
+   ],
+   "sw": [
+    "Node.js"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "npx sv create myapp"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://svelte.dev"
+  },
+  {
+   "id": "gh-libgdx-libgdx",
+   "src": "github",
+   "n": "libgdx/libgdx",
+   "url": "https://github.com/libgdx/libgdx",
+   "cat": "遊戲開發",
+   "diff": "中階",
+   "modes": [
+    "build"
+   ],
+   "ov": "以 Java 撰寫的跨平台遊戲開發框架，一份程式碼可發布到桌面、Android、iOS 與網頁，適合想用程式（而非拖拉介面）做遊戲的人。",
+   "feat": [
+    "一份程式碼跨多平台",
+    "2D 與 3D 支援",
+    "物理引擎與粒子系統",
+    "成熟的社群與教學"
+   ],
+   "tasks": [
+    "用官方範本建專案，做一個接蘋果的小遊戲",
+    "把遊戲打包成桌面與 HTML5 兩個版本"
+   ],
+   "sw": [
+    "JDK",
+    "Gradle"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "桌面",
+    "Android",
+    "iOS",
+    "Web"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": "https://libgdx.com"
+  },
+  {
+   "id": "gh-pygame-pygame",
+   "src": "github",
+   "n": "pygame/pygame",
+   "url": "https://github.com/pygame/pygame",
+   "cat": "遊戲開發",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "歷史悠久的 Python 遊戲函式庫，提供繪圖、音效、輸入與碰撞偵測，是很多人用程式做第一個遊戲的起點。",
+   "feat": [
+    "簡單的繪圖與音效 API",
+    "鍵盤、滑鼠、搖桿輸入",
+    "碰撞偵測",
+    "大量教學資源"
+   ],
+   "tasks": [
+    "做一個經典的貪食蛇或打磚塊",
+    "加上計分、音效與開始畫面"
+   ],
+   "sw": [
+    "Python 3"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "pip install pygame-ce",
+    "python -m pygame.examples.aliens"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "LGPL-2.1",
+   "home": "https://pyga.me"
+  },
+  {
+   "id": "gh-esp8266-arduino",
+   "src": "github",
+   "n": "ESP8266/Arduino",
+   "url": "https://github.com/ESP8266/Arduino",
+   "cat": "IoT 與硬體",
+   "diff": "中階",
+   "modes": [
+    "build",
+    "hw"
+   ],
+   "ov": "讓便宜的 ESP8266 Wi-Fi 晶片能用 Arduino 開發環境撰寫韌體，是入門 Wi-Fi 物聯網裝置最平價的選擇之一。",
+   "feat": [
+    "用 Arduino IDE 開發 ESP8266",
+    "內建 Wi-Fi 與 HTTP / MQTT 函式庫",
+    "OTA 無線更新",
+    "大量感測器範例"
+   ],
+   "tasks": [
+    "用 ESP8266 讀取溫溼度感測器並上傳到自架的 ntfy 或 MQTT",
+    "做一個手機就能控制的 Wi-Fi 開關"
+   ],
+   "sw": [
+    "Arduino IDE"
+   ],
+   "hw": [
+    "ESP8266 開發板（如 NodeMCU）",
+    "USB 傳輸線"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [
+    [
+     "brick",
+     "刷寫韌體有風險，刷錯可能需要重新燒錄"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "LGPL-2.1",
+   "home": null
+  },
+  {
+   "id": "gh-esphome-esphome",
+   "src": "github",
+   "n": "esphome/esphome",
+   "url": "https://github.com/esphome/esphome",
+   "cat": "IoT 與硬體",
+   "diff": "入門",
+   "modes": [
+    "docker",
+    "hw"
+   ],
+   "ov": "用 YAML 設定檔就能為 ESP32 / ESP8266 產生韌體的系統，不必寫 C++ 就能做感測器節點，並能直接整合進 Home Assistant。",
+   "feat": [
+    "用 YAML 描述裝置行為",
+    "自動產生並燒錄韌體",
+    "與 Home Assistant 原生整合",
+    "OTA 無線更新"
+   ],
+   "tasks": [
+    "用 YAML 做一個會回報溫溼度的 ESP32 節點",
+    "把它加進 Home Assistant 顯示在儀表板"
+   ],
+   "sw": [
+    "Docker，或 pip 安裝的 esphome"
+   ],
+   "hw": [
+    "ESP32 或 ESP8266 開發板",
+    "感測器模組"
+   ],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run --rm -v \"${PWD}\":/config -it ghcr.io/esphome/esphome"
+   ],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-3.0",
+   "home": "https://esphome.io"
+  },
+  {
+   "id": "gh-obsproject-obs-studio",
+   "src": "github",
+   "n": "obsproject/obs-studio",
+   "url": "https://github.com/obsproject/obs-studio",
+   "cat": "桌面與行動應用",
+   "diff": "中階",
+   "modes": [
+    "build",
+    "local"
+   ],
+   "ov": "業界標準的開源直播與螢幕錄影軟體，支援多場景、多來源合成與外掛，研究它的原始碼可以學到即時影音處理的實務。",
+   "feat": [
+    "多場景與來源合成",
+    "直播與本機錄影",
+    "外掛與腳本擴充",
+    "硬體編碼支援"
+   ],
+   "tasks": [
+    "設定一個含攝影機、畫面與文字的錄影場景",
+    "從原始碼編譯並嘗試啟用一個外掛"
+   ],
+   "sw": [
+    "CMake、Qt 等（建置時）"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "GPL-2.0",
+   "home": "https://obsproject.com"
+  },
+  {
+   "id": "gh-logseq-logseq",
+   "src": "github",
+   "n": "logseq/logseq",
+   "url": "https://github.com/logseq/logseq",
+   "cat": "桌面與行動應用",
+   "diff": "入門",
+   "modes": [
+    "local"
+   ],
+   "ov": "以大綱與雙向連結為核心的隱私優先知識管理工具，筆記以純 Markdown 檔案存在本機，適合做個人知識庫與每日筆記。",
+   "feat": [
+    "大綱式區塊編輯",
+    "雙向連結與知識圖譜",
+    "純本機 Markdown 檔案",
+    "每日筆記與待辦"
+   ],
+   "tasks": [
+    "用雙向連結整理一個學習主題的筆記",
+    "把筆記資料夾用 Syncthing 同步到手機"
+   ],
+   "sw": [],
+   "hw": [],
+   "he": false,
+   "os": [
+    "Windows",
+    "macOS",
+    "Linux",
+    "Android",
+    "iOS"
+   ],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "AGPL-3.0",
+   "home": "https://logseq.com"
+  },
+  {
+   "id": "gh-juice-shop-juice-shop",
+   "src": "github",
+   "n": "juice-shop/juice-shop",
+   "url": "https://github.com/juice-shop/juice-shop",
+   "cat": "資安與網路",
+   "diff": "入門",
+   "modes": [
+    "docker"
+   ],
+   "ov": "OWASP Juice Shop：一個刻意留有漏洞的練習用網購網站，內建由易到難的挑戰與計分板，是學習網頁安全、理解常見弱點成因最熱門的合法靶場。",
+   "feat": [
+    "上百個由易到難的挑戰",
+    "內建計分板與提示",
+    "涵蓋 OWASP Top 10 主題",
+    "可用於課堂或 CTF"
+   ],
+   "tasks": [
+    "在隔離環境完成計分板上的一星挑戰並記錄修正方法",
+    "對照挑戰檢查自己的專案有沒有類似問題"
+   ],
+   "sw": [
+    "Docker，或 Node.js"
+   ],
+   "hw": [],
+   "he": false,
+   "os": [],
+   "ins": [
+    "docker run --rm -p 127.0.0.1:3000:3000 bkimminich/juice-shop"
+   ],
+   "insN": null,
+   "r": [
+    [
+     "vuln",
+     "刻意保留漏洞，僅供學習，請在隔離環境操作、勿對外開放"
+    ]
+   ],
+   "q": null,
+   "rm": true,
+   "lic": "MIT",
+   "home": "https://owasp-juice.shop"
+  },
+  {
+   "id": "gh-rasbt-llms-from-scratch",
+   "src": "github",
+   "n": "rasbt/LLMs-from-scratch",
+   "url": "https://github.com/rasbt/LLMs-from-scratch",
+   "cat": "學習資源",
+   "diff": "中階",
+   "modes": [
+    "read",
+    "local"
+   ],
+   "ov": "《Build a Large Language Model (From Scratch)》的配套程式碼，用 PyTorch 一步步從分詞、注意力機制寫到預訓練與指令微調。",
+   "feat": [
+    "逐章 Jupyter Notebook",
+    "從零實作 GPT 架構",
+    "預訓練與指令微調",
+    "大量補充練習"
+   ],
+   "tasks": [
+    "跟著實作多頭注意力並和書中版本比對",
+    "用書中流程微調一個小模型做分類"
+   ],
+   "sw": [
+    "Python 3",
+    "PyTorch",
+    "Jupyter"
+   ],
+   "hw": [
+    "一般筆電即可，GPU 非必要"
+   ],
+   "he": true,
+   "os": [],
+   "ins": [],
+   "insN": null,
+   "r": [],
+   "q": null,
+   "rm": true,
+   "lic": "Apache-2.0",
+   "home": null
   }
  ]
 }

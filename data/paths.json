@@ -1,0 +1,90 @@
+{
+ "paths": [
+  {
+   "id": "selfhost-starter",
+   "title": "自架服務入門",
+   "desc": "從零開始在自己的機器上架服務：先學會用容器跑起單一應用，再加上監控、反向代理與一鍵部署平台。",
+   "level": "入門 → 中階",
+   "time": "3–4 週",
+   "steps": [
+    {"id": "gh-usememos-memos", "goal": "第一個容器服務：用 docker run 跑起 Memos，理解埠號對應與資料磁碟區。"},
+    {"id": "gh-jellyfin-jellyfin", "goal": "加上媒體庫並從手機連線，練習多容器與掛載唯讀資料夾。"},
+    {"id": "gh-louislam-uptime-kuma", "goal": "監控前面架好的服務，設定斷線通知。"},
+    {"id": "gh-portainer-portainer", "goal": "用圖形介面管理這些容器，看懂日誌與資源用量。"},
+    {"id": "gh-caddyserver-caddy", "goal": "用反向代理與自動 HTTPS，把服務掛到自己的網域下。"},
+    {"id": "gh-coollabsio-coolify", "goal": "最後用 Coolify 把 GitHub 專案設成 push 後自動部署，體驗自架版 PaaS。"}
+   ]
+  },
+  {
+   "id": "local-llm",
+   "title": "本地 AI 從使用到原理",
+   "desc": "先在自己的電腦上把開源大型語言模型跑起來，接著架設聊天介面與知識庫，最後深入到模型的底層實作。",
+   "level": "入門 → 進階",
+   "time": "4–6 週",
+   "steps": [
+    {"id": "gh-ollama-ollama", "goal": "一行指令跑起第一個本地模型，用 REST API 寫個小程式。"},
+    {"id": "gh-open-webui-open-webui", "goal": "架一個私人 ChatGPT 介面，試用 RAG 文件問答。"},
+    {"id": "gh-ggml-org-llama-cpp", "goal": "深入底層引擎，比較不同量化等級對速度與品質的影響。"},
+    {"id": "gh-comfyanonymous-comfyui", "goal": "跨到影像生成，用節點流程做一張可控構圖的圖。"},
+    {"id": "gh-karpathy-nanogpt", "goal": "動手訓練一個小 GPT，真正理解訓練流程。"},
+    {"id": "gh-rasbt-llms-from-scratch", "goal": "跟著書逐章從零把 LLM 的每個元件寫出來。"}
+   ]
+  },
+  {
+   "id": "web-appsec",
+   "title": "網頁開發到安全自我檢查",
+   "desc": "先做出一個會動的網站，學會部署，再站在防禦的角度用合法靶場理解常見弱點、學會寫出更安全的程式。",
+   "level": "入門 → 中階",
+   "time": "4–5 週",
+   "steps": [
+    {"id": "gh-microsoft-web-dev-for-beginners", "goal": "打好 HTML / CSS / JavaScript 基礎，完成一個小專案。"},
+    {"id": "gh-fastapi-fastapi", "goal": "寫一個有資料驗證與登入的後端 API。"},
+    {"id": "gh-pocketbase-pocketbase", "goal": "用單一執行檔後端快速做出完整應用，體會後端服務的組成。"},
+    {"id": "gh-juice-shop-juice-shop", "goal": "在隔離環境用合法靶場理解常見弱點是怎麼產生的。"},
+    {"id": "gh-owasp-wrongsecrets", "goal": "聚焦機密資料管理，學會該怎麼安全地存放憑證。"},
+    {"id": "gh-swisskyrepo-payloadsallthethings", "goal": "對照防禦速查表，回頭檢查並加固自己的專案。"}
+   ]
+  },
+  {
+   "id": "cloud-native",
+   "title": "容器與雲原生實戰",
+   "desc": "從一台機器的 Docker Compose，一路練到自己的 Kubernetes 叢集與監控體系，建立部署現代應用的完整技能。",
+   "level": "中階 → 進階",
+   "time": "5–6 週",
+   "steps": [
+    {"id": "gh-docker-compose", "goal": "把多個容器用一份 YAML 編排起來，加上健康檢查。"},
+    {"id": "gh-traefik-traefik", "goal": "用會自動探索服務的反向代理，處理多服務路由與 HTTPS。"},
+    {"id": "gh-prometheus-prometheus", "goal": "收集指標並寫一條告警規則。"},
+    {"id": "gh-grafana-grafana", "goal": "把指標畫成儀表板，建立可觀測性的直覺。"},
+    {"id": "gh-k3s-io-k3s", "goal": "用輕量 Kubernetes 組一個自己的叢集並部署應用。"},
+    {"id": "gh-kubernetes-kubernetes", "goal": "深入 Kubernetes 本身，理解排程與自我修復的原理。"}
+   ]
+  },
+  {
+   "id": "maker-iot",
+   "title": "自造者的智慧家庭",
+   "desc": "從全網路廣告攔截開始熟悉家用伺服器，接著架設智慧家庭中樞，最後自己做一個會回報數據的感測器節點。",
+   "level": "入門 → 中階",
+   "time": "3–4 週",
+   "steps": [
+    {"id": "gh-pi-hole-pi-hole", "goal": "在樹莓派或小主機上架 Pi-hole，體驗全網路廣告攔截。"},
+    {"id": "gh-home-assistant-core", "goal": "架設智慧家庭中樞，接一個裝置寫一條自動化。"},
+    {"id": "gh-esphome-esphome", "goal": "用 YAML 做一個 ESP32 感測器節點，整合進 Home Assistant。"},
+    {"id": "gh-binwiederhier-ntfy", "goal": "讓感測器在異常時推播通知到你的手機。"}
+   ]
+  },
+  {
+   "id": "make-a-game",
+   "title": "從零做一款遊戲",
+   "desc": "先用最小的函式庫理解遊戲迴圈，再進到完整引擎，循序做出並發布一款自己的小遊戲。",
+   "level": "入門 → 中階",
+   "time": "4–5 週",
+   "steps": [
+    {"id": "gh-kitao-pyxel", "goal": "用限制極簡的復古引擎，做出第一個會動的小遊戲。"},
+    {"id": "gh-pygame-pygame", "goal": "用 pygame 做一個有計分與音效的完整小遊戲。"},
+    {"id": "gh-raysan5-raylib", "goal": "進到 C 函式庫，理解更底層的繪圖與輸入處理。"},
+    {"id": "gh-godotengine-godot", "goal": "用完整引擎做一款遊戲並匯出成網頁版發布。"}
+   ]
+  }
+ ]
+}
