@@ -7,17 +7,44 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "_site", "og")
 os.makedirs(OUT, exist_ok=True)
 
-FONT_CANDIDATES = [
-    "/usr/share/fonts/opentype/noto/NotoSansCJK-{w}.ttc",
-    "/usr/share/fonts/noto-cjk/NotoSansCJK-{w}.ttc",
-    "/usr/share/fonts/truetype/noto/NotoSansCJK-{w}.ttc",
-]
+import glob
+DIRS = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/noto-cjk", "/usr/share/fonts/truetype/noto", "/usr/share/fonts"]
+
+def find_font(weight):
+    # 優先找該字重的獨立檔，找不到就退回 Regular / 任一 Noto Sans CJK 檔
+    pats = [f"NotoSansCJK-{weight}.ttc", f"NotoSansCJK-{weight}.otf", f"NotoSansCJK*-{weight}.*",
+            "NotoSansCJK-Regular.ttc", "NotoSansCJK*.ttc", "NotoSansCJK*.otf", "NotoSansCJK*.ttf"]
+    for d in DIRS:
+        for pat in pats:
+            hits = sorted(glob.glob(os.path.join(d, "**", pat), recursive=True))
+            if hits:
+                return hits[0]
+    return None
+
+def tc_index(path):
+    # 在 ttc collection 中找繁體中文（TC）那一個 face；找不到就用 0
+    try:
+        from PIL import ImageFont as IF
+        for i in range(12):
+            try:
+                f = IF.truetype(path, 20, index=i)
+                name = " ".join(str(x) for x in f.getname())
+                if "TC" in name or "Traditional" in name:
+                    return i
+            except Exception:
+                break
+    except Exception:
+        pass
+    return 0
+
+_CACHE = {}
 def font(weight, size):
-    for c in FONT_CANDIDATES:
-        p = c.format(w=weight)
-        if os.path.exists(p):
-            return ImageFont.truetype(p, size, index=2)  # index 2 = TC
-    sys.exit("找不到 Noto Sans CJK 字型")
+    path = find_font(weight)
+    if not path:
+        sys.exit("找不到 Noto Sans CJK 字型")
+    if path not in _CACHE:
+        _CACHE[path] = tc_index(path)
+    return ImageFont.truetype(path, size, index=_CACHE[path])
 
 BG, INK, MUTED, ACCENT, LINE = "#F1F4EF", "#17201C", "#5A6862", "#0B6E5F", "#D5DDD6"
 PLAT = {"github": ("GitHub", "#24292F"), "gitlab": ("GitLab", "#D9480F"), "codeberg": ("Codeberg", "#2378C8"), "gitea": ("Gitea", "#5E8F1F"), "bitbucket": ("Bitbucket", "#1F5FD1")}
