@@ -54,6 +54,7 @@ Here is the list of available roadmaps with more being actively worked upon.
 - [Inference Engineering Roadmap](https://roadmap.sh/inference-engineering)
 - [AI Product Builder Roadmap](https://roadmap.sh/ai-product-builder)
 - [Network Engineer Roadmap](https://roadmap.sh/network-engineer)
+- [Cloud Computing Roadmap](https://roadmap.sh/cloud-computing)
 - [AWS Roadmap](https://roadmap.sh/aws)
 - [Cloudflare Roadmap](https://roadmap.sh/cloudflare)
 - [Linux Roadmap](https://roadmap.sh/linux)
