@@ -68,6 +68,8 @@ Drivers for Go's sql package which currently support database/sql includes:
 
 * [GoDoc](http://pkg.go.dev/xorm.io/xorm)
 
+* [Common pitfalls](docs/common-pitfalls.md)
+
 ## Quick Start
 
 * Create Engine

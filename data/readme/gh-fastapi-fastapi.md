@@ -47,7 +47,7 @@ The key features are:
 <!-- sponsors -->
 ### Keystone Sponsor
 
-<a href="https://fastapicloud.com" target="_blank" title="FastAPI Cloud. By the same team behind FastAPI. You code. We Cloud."><img src="https://fastapi.tiangolo.com/img/sponsors/fastapicloud.png"></a>
+<a href="https://fastapicloud.com" target="_blank" title="FastAPI Cloud is now generally available. By the same team behind FastAPI. You code. We cloud."><img src="https://fastapi.tiangolo.com/img/sponsors/fastapicloud.png"></a>
 
 ### Gold Sponsors
 
@@ -67,6 +67,7 @@ The key features are:
 <a href="https://dribia.com/en/" target="_blank" title="Dribia - Data Science within your reach"><img src="https://fastapi.tiangolo.com/img/sponsors/dribia.png"></a>
 <a href="https://www.bairesdev.com/" target="_blank" title="BairesDev | Nearshore Software Development & Staff Augmentation Company"><img src="https://fastapi.tiangolo.com/img/sponsors/bairesdev.svg"></a>
 <a href="https://tutorcruncher.com/?utm_source=fastapi" target="_blank" title="TutorCruncher"><img src="https://fastapi.tiangolo.com/img/sponsors/tutorcruncher.png"></a>
+<a href="https://encore.dev/py?utm_source=fastapi&utm_medium=sponsor&utm_campaign=fastapi-sponsorship" target="_blank" title="Encore: Build and deploy FastAPI apps to your own AWS or GCP account, with the infrastructure handled for you"><img src="https://fastapi.tiangolo.com/img/sponsors/encore.png"></a>
 
 <!-- /sponsors -->
 
